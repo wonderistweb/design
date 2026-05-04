@@ -41,8 +41,8 @@
   --t-slow: 900ms;
 
   /* Layout */
-  --pad-x: clamp(20px, 4vw, 64px);
-  --max: 1440px;
+  --pad-x: clamp(24px, 3.3vw, 48px);
+  --max: 1600px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1125,16 +1125,22 @@ function Nav() {
         .nav {
           position: fixed; top: 0; left: 0; right: 0;
           z-index: 100;
+          color: var(--porcelain);
+          transition: background var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out), border-color var(--t-base) var(--ease-out);
+          border-bottom: 1px solid transparent;
+        }
+        .nav-inner {
+          max-width: var(--max);
+          margin: 0 auto;
           padding: 18px var(--pad-x);
           display: flex; align-items: center; justify-content: space-between;
           gap: 24px;
-          color: var(--porcelain);
-          transition: padding var(--t-base) var(--ease-out), background var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out), border-color var(--t-base) var(--ease-out);
-          border-bottom: 1px solid transparent;
+          transition: padding var(--t-base) var(--ease-out);
         }
+        .nav--scrolled .nav-inner,
+        .nav--menu-open .nav-inner { padding-top: 12px; padding-bottom: 12px; }
         .nav--scrolled,
         .nav--menu-open {
-          padding: 12px var(--pad-x);
           background: color-mix(in oklch, var(--porcelain) 92%, transparent);
           backdrop-filter: blur(18px) saturate(140%);
           -webkit-backdrop-filter: blur(18px) saturate(140%);
@@ -1428,6 +1434,7 @@ function Nav() {
         }
       `}</style>
 
+      <div className="nav-inner">
       <a href="#" className="brand" aria-label="Forever Smiles Implant Center home">
         <img src="assets/logo-light.svg" alt="Forever Smiles Implant Center" className="brand-logo brand-logo--light" />
         <img src="assets/logo-stack-dark.png" alt="" aria-hidden="true" className="brand-logo brand-logo--dark" />
@@ -1478,6 +1485,7 @@ function Nav() {
             <path d="M0 1h18M0 7h18M0 13h12" />
           </svg>
         </button>
+      </div>
       </div>
 
       {/* Mega menu panels */}
@@ -1656,10 +1664,6 @@ function Hero() {
         .hero-meta span { display: block; }
         .hero-title-wrap {
           padding-block: 0 32px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 40px;
         }
         .hero-title {
           font-family: var(--display);
@@ -1667,8 +1671,6 @@ function Hero() {
           letter-spacing: -0.04em;
           line-height: 0.92;
           font-size: clamp(56px, 9.5vw, 168px);
-          flex: 1;
-          min-width: 0;
         }
         .hero-title em {
           font-style: italic;
@@ -1735,16 +1737,14 @@ function Hero() {
           color: color-mix(in oklch, var(--porcelain) 50%, transparent);
           line-height: 1.5;
         }
-        .hero-controls {
-          flex-shrink: 0;
-        }
         .play-btn-lg {
           width: 96px; height: 96px;
           border-radius: 50%;
           background: color-mix(in oklch, var(--porcelain) 14%, transparent);
           border: 1px solid color-mix(in oklch, var(--porcelain) 28%, transparent);
           color: var(--porcelain);
-          display: grid; place-items: center;
+          display: inline-flex; align-items: center; justify-content: center;
+          vertical-align: middle;
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           position: relative;
@@ -1799,7 +1799,7 @@ function Hero() {
         @media (max-width: 880px) {
           .hero-foot { flex-direction: column; align-items: flex-start; gap: 28px; }
           .hero-stats { gap: 20px; }
-          .hero-controls { display: none; }
+          .play-btn-lg { display: none; }
         }
       `}</style>
 
@@ -1833,13 +1833,13 @@ function Hero() {
           <h1 className="hero-title">
             <SplitText delayBase={70}>Permanent teeth.</SplitText>
             <br />
-            <SplitText delayBase={70} style={{ color: "var(--accent-soft)" }}>In a single day.</SplitText>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "24px" }}>
+              <SplitText delayBase={70} style={{ color: "var(--accent-soft)" }}>In a single day.</SplitText>
+              <button className="play-btn-lg" aria-label="Play hero reel">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>
+              </button>
+            </span>
           </h1>
-          <div className="hero-controls">
-            <button className="play-btn-lg" aria-label="Play hero reel">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>
-            </button>
-          </div>
         </div>
 
         <div className="hero-foot">
@@ -1858,12 +1858,12 @@ function Hero() {
 
           <div className="hero-stats">
             {[
-              { v: 15000, suf: "+", l: "Implants placed" },
-              { v: 24, suf: " yrs", l: "In practice" },
-              { v: 30, suf: "/mo", l: "Full arches restored" },
+              { n: "15,000", suf: "+", l: "Implants placed" },
+              { n: "24", suf: " yrs", l: "In practice" },
+              { n: "30", suf: "/mo", l: "Full arches restored" },
             ].map((s, i) => (
               <div className="hero-stat" key={i} data-reveal>
-                <div className="hero-stat-num"><Counter to={s.v} /><span className="suf">{s.suf}</span></div>
+                <div className="hero-stat-num">{s.n}<span className="suf">{s.suf}</span></div>
                 <div className="hero-stat-label">{s.l}</div>
               </div>
             ))}
@@ -2942,12 +2942,7 @@ function Why() {
               <span className="dot" />Different by design
             </div>
           </Reveal>
-          <SplitText className="why-h" delayBase={45}>
-            We are not a general dental office that does implants.{" "}
-          </SplitText>
-          <SplitText className="why-h" delayBase={45} startDelay={450} style={{ fontStyle: "italic", color: "var(--accent-soft)" }}>
-            Implants are all we do.
-          </SplitText>
+          <SplitText className="why-h" delayBase={45}>We are not a general dental office that does implants.</SplitText><SplitText className="why-h" delayBase={45} startDelay={450} style={{ fontStyle: "italic", color: "var(--accent-soft)" }}>Implants are all we do.</SplitText>
         </div>
 
         <div className="why-grid">
@@ -3635,7 +3630,7 @@ function CTA() {
         .cta-h {
           font-family: var(--display);
           font-weight: 300;
-          font-size: clamp(48px, 7vw, 120px);
+          font-size: clamp(40px, 5.6vw, 84px);
           line-height: 0.94;
           letter-spacing: -0.035em;
           margin-bottom: 32px;
