@@ -7,32 +7,4000 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Geist:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css" />
+<style>
+/* ============================================================
+   FOREVER SMILES IMPLANT CENTER — Design System
+   ============================================================ */
+:root {
+  /* Color */
+  --ink: oklch(0.18 0.04 255);          /* deep navy near-black */
+  --navy: oklch(0.26 0.06 255);         /* primary navy */
+  --navy-2: oklch(0.34 0.06 255);       /* mid navy */
+  --navy-soft: oklch(0.42 0.05 250);
+  --porcelain: oklch(0.985 0.004 80);   /* warm white */
+  --bone: oklch(0.96 0.006 75);         /* warm off-white */
+  --paper: oklch(0.93 0.008 75);
+  --grey: oklch(0.58 0.01 250);
+  --grey-2: oklch(0.74 0.008 250);
+  --line: oklch(0.88 0.008 250);
+  --line-dark: oklch(0.34 0.04 255);
+  --accent: oklch(0.68 0.13 240);       /* interactive blue */
+  --accent-soft: oklch(0.88 0.05 240);
+  --warning: oklch(0.78 0.12 70);
+
+  /* Type */
+  --display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 220ms;
+  --t-base: 480ms;
+  --t-slow: 900ms;
+
+  /* Layout */
+  --pad-x: clamp(20px, 4vw, 64px);
+  --max: 1440px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--porcelain); color: var(--ink); }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  font-feature-settings: "ss01", "cv01";
+  overflow-x: hidden;
+}
+img, video, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--ink); color: var(--porcelain); }
+
+/* Type scale */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.eyebrow .dot, .dot {
+  display: inline-block;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); margin-right: 16px;
+  transform: translateY(-2px);
+}
+.h-display {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.96;
+  font-size: clamp(48px, 8.5vw, 148px);
+}
+.h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  font-size: clamp(40px, 6vw, 96px);
+}
+.h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  font-size: clamp(32px, 4.4vw, 68px);
+}
+.h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  font-size: clamp(24px, 2.4vw, 36px);
+}
+.lede {
+  font-size: clamp(18px, 1.4vw, 22px);
+  line-height: 1.45;
+  color: var(--navy-soft);
+  letter-spacing: -0.005em;
+}
+.body {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--navy-soft);
+}
+
+/* Buttons */
+.btn {
+  --bg: var(--ink);
+  --fg: var(--porcelain);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+  background: var(--bg);
+  color: var(--fg);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--t-fast) var(--ease-out);
+  isolation: isolate;
+}
+.btn::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--accent);
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform var(--t-base) var(--ease-out);
+  z-index: -1;
+}
+.btn:hover::before { transform: translateY(0); }
+.btn:hover { color: var(--ink); }
+.btn:hover .btn-arrow { transform: translateX(4px) rotate(-45deg); }
+.btn .btn-arrow {
+  display: inline-block;
+  transition: transform var(--t-base) var(--ease-out);
+}
+.btn--ghost {
+  --bg: transparent;
+  --fg: var(--ink);
+  border: 1px solid color-mix(in oklch, var(--ink) 18%, transparent);
+}
+.btn--ghost:hover { color: var(--porcelain); }
+.btn--ghost::before { background: var(--ink); }
+.btn--light {
+  --bg: var(--porcelain);
+  --fg: var(--ink);
+}
+.btn--light::before { background: var(--accent); }
+
+/* Sections */
+section { position: relative; }
+.container { max-width: var(--max); margin: 0 auto; padding-inline: var(--pad-x); }
+
+/* Section label sticky bar (left rail) */
+.rail-label {
+  position: absolute; top: 0; left: var(--pad-x);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey);
+  pointer-events: none;
+}
+
+/* Reveal animation */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal].is-in {
+  opacity: 1; transform: translateY(0);
+}
+[data-reveal="scale"] {
+  transform: scale(1.06);
+}
+[data-reveal="scale"].is-in { transform: scale(1); }
+[data-reveal="line"] {
+  transform: scaleX(0);
+  transform-origin: left center;
+  opacity: 1;
+  transition: transform 1.2s var(--ease-out);
+}
+[data-reveal="line"].is-in { transform: scaleX(1); }
+
+/* Split-line headline reveal */
+.split-line { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.18em; margin-bottom: -0.18em; padding-right: 0.08em; }
+.split-line > span {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 1s var(--ease-out);
+  transition-delay: var(--split-delay, 0ms);
+  will-change: transform;
+}
+.is-in .split-line > span,
+.split-ready .split-line > span { transform: translateY(0); }
+
+/* Placeholder media (striped) */
+.media {
+  position: relative;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(135deg,
+      color-mix(in oklch, var(--navy) 92%, transparent),
+      color-mix(in oklch, var(--navy) 92%, transparent) 14px,
+      color-mix(in oklch, var(--navy-2) 95%, transparent) 14px,
+      color-mix(in oklch, var(--navy-2) 95%, transparent) 28px);
+  color: var(--porcelain);
+  border-radius: 4px;
+}
+.media--bone {
+  background:
+    repeating-linear-gradient(135deg,
+      var(--bone), var(--bone) 14px,
+      var(--paper) 14px, var(--paper) 28px);
+  color: var(--navy);
+}
+.media .placeholder-tag {
+  position: absolute;
+  bottom: 14px; left: 14px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: color-mix(in oklch, var(--ink) 78%, transparent);
+  color: var(--porcelain);
+  padding: 6px 10px;
+  border-radius: 2px;
+  backdrop-filter: blur(4px);
+}
+.media--bone .placeholder-tag {
+  background: color-mix(in oklch, var(--navy) 86%, transparent);
+}
+.media .play-btn {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  background: var(--porcelain);
+  color: var(--ink);
+  display: grid; place-items: center;
+  transition: transform var(--t-base) var(--ease-out), background var(--t-base) var(--ease-out);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.media .play-btn:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  background: var(--accent);
+}
+.media .play-btn::before {
+  content: "▶";
+  font-size: 16px;
+  position: absolute;
+  inset: 0;
+  display: grid; place-items: center;
+  transition: opacity var(--t-fast) var(--ease-out);
+}
+
+/* Grain overlay */
+.grain {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+
+/* Magnetic cursor */
+.cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  transition: width var(--t-fast) var(--ease-out), height var(--t-fast) var(--ease-out), background var(--t-fast) var(--ease-out);
+  mix-blend-mode: difference;
+}
+.cursor.is-hover {
+  width: 56px; height: 56px;
+  background: var(--porcelain);
+}
+@media (hover: none) { .cursor { display: none; } }
+
+/* Section spacing */
+.sec { padding-block: clamp(80px, 9vw, 160px); }
+.sec--tight { padding-block: clamp(56px, 6vw, 96px); }
+
+/* Dark section */
+.dark {
+  background: var(--ink);
+  color: var(--porcelain);
+}
+.dark .body, .dark .lede { color: color-mix(in oklch, var(--porcelain) 75%, transparent); }
+.dark .eyebrow { color: color-mix(in oklch, var(--porcelain) 60%, transparent); }
+.dark .btn { --bg: var(--porcelain); --fg: var(--ink); }
+.dark .btn--ghost { --bg: transparent; --fg: var(--porcelain); border-color: color-mix(in oklch, var(--porcelain) 22%, transparent); }
+.dark .btn--ghost:hover { color: var(--ink); }
+.dark .btn--ghost::before { background: var(--porcelain); }
+
+/* Hairlines */
+.hairline { height: 1px; background: var(--line); width: 100%; }
+.dark .hairline { background: color-mix(in oklch, var(--porcelain) 16%, transparent); }
+
+/* Form controls */
+input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* Hide scrollbar for marquee containers */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+</style>
 </head>
 <body>
 <div id="root"></div>
 
-<!-- React + Babel pinned -->
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="components/primitives.jsx"></script>
-<script type="text/babel" src="components/tweaks.jsx"></script>
-<script type="text/babel" src="components/nav.jsx"></script>
-<script type="text/babel" src="components/hero.jsx"></script>
-<script type="text/babel" src="components/marquee.jsx"></script>
-<script type="text/babel" src="components/promise.jsx"></script>
-<script type="text/babel" src="components/outcomes.jsx"></script>
-<script type="text/babel" src="components/surgeon.jsx"></script>
-<script type="text/babel" src="components/process.jsx"></script>
-<script type="text/babel" src="components/why.jsx"></script>
-<script type="text/babel" src="components/testimonial.jsx"></script>
-<script type="text/babel" src="components/finance.jsx"></script>
-<script type="text/babel" src="components/faq.jsx"></script>
-<script type="text/babel" src="components/cta.jsx"></script>
-<script type="text/babel" src="components/footer.jsx"></script>
-<script type="text/babel" src="app.jsx"></script>
+<script type="text/babel">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-noncommentable=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function TweakColor({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <input type="color" className="twk-swatch" value={value}
+             onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+
+/* ---------- Shared primitives ---------- */
+
+/** Reveal hook: observes the element and adds .is-in once visible */
+function useReveal(once = true) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          if (once) io.unobserve(e.target);
+        } else if (!once) {
+          e.target.classList.remove("is-in");
+        }
+      });
+    }, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [once]);
+  return ref;
+}
+
+/** Animated number counter */
+function Counter({ to, duration = 1800, prefix = "", suffix = "", decimals = 0 }) {
+  const [v, setV] = React.useState(0);
+  const ref = React.useRef(null);
+  const started = React.useRef(false);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && !started.current) {
+          started.current = true;
+          const start = performance.now();
+          const tick = (now) => {
+            const t = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - t, 3);
+            setV(eased * to);
+            if (t < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      });
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [to, duration]);
+  const formatted = decimals > 0
+    ? v.toFixed(decimals)
+    : Math.round(v).toLocaleString("en-US");
+  return <span ref={ref}>{prefix}{formatted}{suffix}</span>;
+}
+
+/** Split-text headline. Each word gets its own .split-line wrapper */
+function SplitText({ children, className = "", as: As = "span", delayBase = 60, startDelay = 0, ...rest }) {
+  const ref = useReveal();
+  const words = React.Children.toArray(children).flatMap((child) => {
+    if (typeof child === "string") return child.split(/(\s+)/);
+    return [child];
+  });
+  return (
+    <As ref={ref} className={className} {...rest}>
+      {words.map((w, i) => {
+        if (typeof w !== "string") return <React.Fragment key={i}>{w}</React.Fragment>;
+        if (/^\s+$/.test(w)) return <React.Fragment key={i}>{w}</React.Fragment>;
+        return (
+          <span key={i} className="split-line">
+            <span style={{ "--split-delay": `${startDelay + i * delayBase}ms` }}>{w}</span>
+          </span>
+        );
+      })}
+    </As>
+  );
+}
+
+/** Reveal wrapper */
+function Reveal({ children, as: As = "div", delay = 0, kind, className = "", ...rest }) {
+  const ref = useReveal();
+  return (
+    <As
+      ref={ref}
+      data-reveal={kind ?? true}
+      style={{ "--reveal-delay": `${delay}ms`, ...(rest.style || {}) }}
+      className={className}
+      {...rest}
+    >
+      {children}
+    </As>
+  );
+}
+
+/** Striped media placeholder with caption */
+function MediaPlaceholder({ tag, ratio = "16 / 9", variant = "navy", play = false, children, style = {}, className = "" }) {
+  return (
+    <div
+      className={`media ${variant === "bone" ? "media--bone" : ""} ${className}`}
+      style={{ aspectRatio: ratio, ...style }}
+    >
+      {play && <button className="play-btn" aria-label="Play">{""}</button>}
+      <span className="grain"></span>
+      {tag && <span className="placeholder-tag">{tag}</span>}
+      {children}
+    </div>
+  );
+}
+
+/** Magnetic / cursor-aware button (tilts toward cursor) */
+function MagneticButton({ children, className = "btn", strength = 0.3, ...rest }) {
+  const ref = React.useRef(null);
+  const onMove = (e) => {
+    const el = ref.current; if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width / 2) * strength;
+    const y = (e.clientY - r.top - r.height / 2) * strength;
+    el.style.transform = `translate(${x}px, ${y}px)`;
+  };
+  const onLeave = () => {
+    const el = ref.current; if (!el) return;
+    el.style.transform = "translate(0,0)";
+  };
+  return (
+    <button
+      ref={ref}
+      className={className}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      data-cursor="hover"
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+}
+
+function ArrowRight({ size = 14 }) {
+  return (
+    <svg className="btn-arrow" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+function Plus({ open }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" style={{ transition: "transform 400ms var(--ease-out)", transform: open ? "rotate(45deg)" : "rotate(0)" }}>
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}
+
+Object.assign(window, { useReveal, Counter, SplitText, Reveal, MediaPlaceholder, MagneticButton, ArrowRight, Plus });
+
+
+/* ---------- Tweaks ---------- */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentHue": 240,
+  "accentChroma": 0.13,
+  "headlineWeight": 300,
+  "headlineItalicAccent": true,
+  "density": "balanced",
+  "rail": true,
+  "magneticCursor": false,
+  "marquee": true,
+  "grain": true,
+  "heroVariant": "default"
+}/*EDITMODE-END*/;
+
+function applyTweakStyles(t) {
+  const r = document.documentElement.style;
+  r.setProperty("--accent", `oklch(0.68 ${t.accentChroma} ${t.accentHue})`);
+  r.setProperty("--accent-soft", `oklch(0.88 ${Math.max(0.04, t.accentChroma * 0.4)} ${t.accentHue})`);
+  document.body.dataset.density = t.density;
+  document.body.dataset.rail = t.rail ? "1" : "0";
+  document.body.dataset.cursor = t.magneticCursor ? "1" : "0";
+  document.body.dataset.marquee = t.marquee ? "1" : "0";
+  document.body.dataset.grain = t.grain ? "1" : "0";
+  document.body.dataset.italic = t.headlineItalicAccent ? "1" : "0";
+  document.body.dataset.hero = t.heroVariant;
+  r.setProperty("--display-weight", String(t.headlineWeight));
+}
+
+// Inject density / toggle CSS once
+(function injectTweakCSS(){
+  if (document.getElementById("__fs_tweak_css")) return;
+  const s = document.createElement("style");
+  s.id = "__fs_tweak_css";
+  s.textContent = `
+    body[data-density="compact"] .sec { padding-block: clamp(56px, 6vw, 110px); }
+    body[data-density="airy"] .sec { padding-block: clamp(110px, 12vw, 200px); }
+
+    /* Italic accent off → restore default color */
+    body[data-italic="0"] .hero-title em,
+    body[data-italic="0"] .promise-h em,
+    body[data-italic="0"] .outcomes-h em,
+    body[data-italic="0"] .why-h em,
+    body[data-italic="0"] .cta-h em,
+    body[data-italic="0"] .surgeon-h em,
+    body[data-italic="0"] .process-h em,
+    body[data-italic="0"] .finance-h em,
+    body[data-italic="0"] .foot-mark em {
+      color: inherit; font-style: normal;
+    }
+
+    /* Cursor */
+    body[data-cursor="0"] .cursor { display: none; }
+
+    /* Marquee */
+    body[data-marquee="0"] .marquee-sec { display: none; }
+
+    /* Grain */
+    body[data-grain="0"] .grain { display: none; }
+
+    /* Hero variant: light */
+    body[data-hero="light"] .hero { background: var(--bone); color: var(--ink); }
+    body[data-hero="light"] .hero-veil {
+      background:
+        linear-gradient(180deg, transparent 0%, transparent 55%, color-mix(in oklch, var(--bone) 80%, transparent) 100%);
+    }
+    body[data-hero="light"] .media {
+      background:
+        repeating-linear-gradient(135deg,
+          var(--paper), var(--paper) 14px,
+          var(--bone) 14px, var(--bone) 28px);
+      color: var(--navy);
+    }
+    body[data-hero="light"] .hero-eyebrow,
+    body[data-hero="light"] .hero-foot-lede,
+    body[data-hero="light"] .hero-meta,
+    body[data-hero="light"] .hero-stat-label { color: var(--navy-soft); }
+    body[data-hero="light"] .scroll-cue { color: var(--navy-soft); }
+    body[data-hero="light"] .pill-btn { color: var(--ink); border-color: color-mix(in oklch, var(--ink) 22%, transparent); background: color-mix(in oklch, var(--ink) 6%, transparent); }
+    body[data-hero="light"] .pill-btn:hover { color: var(--porcelain); background: var(--ink); }
+    body[data-hero="light"] .hero-foot { border-top-color: color-mix(in oklch, var(--ink) 18%, transparent); }
+    body[data-hero="light"] .placeholder-tag { background: color-mix(in oklch, var(--navy) 86%, transparent); color: var(--porcelain); }
+
+    /* Editorial hero: serif italic display weight feel */
+    body[data-hero="editorial"] .hero-title { font-family: "Bricolage Grotesque"; font-style: italic; font-weight: 300; }
+    body[data-hero="editorial"] .promise-h em,
+    body[data-hero="editorial"] .outcomes-h em { font-style: normal; }
+
+    /* Display weight */
+    .hero-title, .promise-h, .outcomes-h, .surgeon-h,
+    .process-h, .why-h, .cta-h, .finance-h, .faq-h, .foot-mark {
+      font-weight: var(--display-weight, 300);
+    }
+
+    /* Hide rail-style numbered eyebrows */
+    body[data-rail="0"] .promise-eyebrow,
+    body[data-rail="0"] .outcomes-eyebrow,
+    body[data-rail="0"] .surgeon-eyebrow,
+    body[data-rail="0"] .story-eyebrow,
+    body[data-rail="0"] .eyebrow { display: none; }
+  `;
+  document.head.appendChild(s);
+})();
+
+function FSTweaks() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  React.useEffect(() => { applyTweakStyles(t); }, [
+    t.accentHue, t.accentChroma, t.headlineWeight, t.headlineItalicAccent,
+    t.density, t.rail, t.magneticCursor, t.marquee, t.grain, t.heroVariant
+  ]);
+
+  return (
+    <TweaksPanel title="Tweaks · FSIC">
+      <TweakSection label="Brand color" />
+      <TweakSlider label="Accent hue" value={t.accentHue} min={180} max={310} step={1}
+        onChange={(v) => setTweak("accentHue", v)} unit="°" />
+      <TweakSlider label="Accent chroma" value={t.accentChroma} min={0.02} max={0.22} step={0.01}
+        onChange={(v) => setTweak("accentChroma", v)} />
+
+      <TweakSection label="Hero" />
+      <TweakRadio label="Variant" value={t.heroVariant}
+        options={["default", "light", "editorial"]}
+        onChange={(v) => setTweak("heroVariant", v)} />
+
+      <TweakSection label="Typography" />
+      <TweakRadio label="Display weight" value={String(t.headlineWeight)}
+        options={["200", "300", "400"]}
+        onChange={(v) => setTweak("headlineWeight", parseInt(v, 10))} />
+      <TweakToggle label="Italic accent words" value={t.headlineItalicAccent}
+        onChange={(v) => setTweak("headlineItalicAccent", v)} />
+
+      <TweakSection label="Layout" />
+      <TweakRadio label="Density" value={t.density}
+        options={["compact", "balanced", "airy"]}
+        onChange={(v) => setTweak("density", v)} />
+      <TweakToggle label="Section rail labels" value={t.rail}
+        onChange={(v) => setTweak("rail", v)} />
+
+      <TweakSection label="Motion & FX" />
+      <TweakToggle label="Magnetic cursor" value={t.magneticCursor}
+        onChange={(v) => setTweak("magneticCursor", v)} />
+      <TweakToggle label="Credentials marquee" value={t.marquee}
+        onChange={(v) => setTweak("marquee", v)} />
+      <TweakToggle label="Image grain overlay" value={t.grain}
+        onChange={(v) => setTweak("grain", v)} />
+    </TweaksPanel>
+  );
+}
+
+window.FSTweaks = FSTweaks;
+
+
+/* ---------- Top Navigation ---------- */
+function Nav() {
+  const [scrolled, setScrolled] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [activeMenu, setActiveMenu] = React.useState(null); // "services" | "patients" | null
+  const closeTimer = React.useRef(null);
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const openMenu = (key) => {
+    if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; }
+    setActiveMenu(key);
+  };
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setActiveMenu(null), 140);
+  };
+
+  const services = [
+    { label: "All-on-4 Implants", href: "#promise", note: "Full arch in a single day" },
+    { label: "Zygomatic Implants", href: "#surgeon", note: "For severe bone loss" },
+    { label: "Dental Implants", href: "#process", note: "Single tooth replacement" },
+    { label: "Implant Dentures", href: "#promise", note: "Snap-in stability" },
+    { label: "FP-1 Implant Bridges", href: "#process", note: "Fixed, tooth-only restoration" },
+    { label: "Implant Correction", href: "#surgeon", note: "Failed-case revisions" },
+  ];
+
+  const patients = [
+    { label: "Patient Resources", href: "#consult", note: "Forms, prep & guides" },
+    { label: "Forever Smiles Protection", href: "#process", note: "Lifetime warranty & care" },
+    { label: "Before & Afters", href: "#outcomes", note: "Real cases, real results" },
+    { label: "Blog", href: "#", note: "Insights from Dr. Young" },
+  ];
+
+  return (
+    <header className={`nav ${scrolled ? "nav--scrolled" : ""} ${activeMenu ? "nav--menu-open" : ""}`}>
+      <style>{`
+        .nav {
+          position: fixed; top: 0; left: 0; right: 0;
+          z-index: 100;
+          padding: 18px var(--pad-x);
+          display: flex; align-items: center; justify-content: space-between;
+          gap: 24px;
+          color: var(--porcelain);
+          transition: padding var(--t-base) var(--ease-out), background var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out), border-color var(--t-base) var(--ease-out);
+          border-bottom: 1px solid transparent;
+        }
+        .nav--scrolled,
+        .nav--menu-open {
+          padding: 12px var(--pad-x);
+          background: color-mix(in oklch, var(--porcelain) 92%, transparent);
+          backdrop-filter: blur(18px) saturate(140%);
+          -webkit-backdrop-filter: blur(18px) saturate(140%);
+          color: var(--ink);
+          border-bottom-color: var(--line);
+        }
+        .nav .brand {
+          display: flex; align-items: center;
+          position: relative;
+          height: 56px;
+        }
+        .nav .brand-logo {
+          height: 56px;
+          width: auto;
+          display: block;
+          transition: opacity var(--t-base) var(--ease-out), height var(--t-base) var(--ease-out);
+        }
+        .nav .brand-logo--light { position: static; }
+        .nav .brand-logo--dark {
+          position: absolute; left: 0; top: 50%;
+          transform: translateY(-50%);
+          opacity: 0;
+          height: 48px;
+        }
+        .nav--scrolled,
+        .nav--menu-open { }
+        .nav--scrolled .brand-logo--light,
+        .nav--menu-open .brand-logo--light { opacity: 0; }
+        .nav--scrolled .brand-logo--dark,
+        .nav--menu-open .brand-logo--dark { opacity: 1; }
+        .nav--scrolled .brand,
+        .nav--menu-open .brand { height: 48px; }
+
+        .nav .links {
+          display: flex; align-items: center; gap: 4px;
+        }
+        .nav .link {
+          padding: 10px 14px;
+          font-size: 13.5px;
+          letter-spacing: -0.005em;
+          border-radius: 999px;
+          position: relative;
+          display: inline-flex; align-items: center; gap: 6px;
+          transition: color var(--t-fast) var(--ease-out);
+          background: transparent;
+          border: 0;
+          color: inherit;
+          cursor: pointer;
+          font-family: inherit;
+        }
+        .nav .link::after {
+          content: ""; position: absolute;
+          left: 14px; right: 14px; bottom: 6px;
+          height: 1px;
+          background: currentColor;
+          transform: scaleX(0);
+          transform-origin: left center;
+          transition: transform var(--t-base) var(--ease-out);
+        }
+        .nav .link:hover::after,
+        .nav .link[aria-expanded="true"]::after { transform: scaleX(1); }
+        .nav .link .caret {
+          width: 10px; height: 10px;
+          transition: transform var(--t-fast) var(--ease-out);
+          opacity: 0.7;
+        }
+        .nav .link[aria-expanded="true"] .caret { transform: rotate(180deg); opacity: 1; }
+
+        .nav .right { display: flex; align-items: center; gap: 10px; }
+        .nav .phone {
+          display: inline-flex; align-items: center; gap: 10px;
+          padding: 12px 18px;
+          font-family: var(--sans);
+          font-size: 13px;
+          letter-spacing: -0.005em;
+          font-weight: 500;
+          background: transparent;
+          color: inherit;
+          border-radius: 999px;
+          border: 1px solid color-mix(in oklch, currentColor 30%, transparent);
+          transition: background var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out), border-color var(--t-fast) var(--ease-out), transform var(--t-fast) var(--ease-out);
+        }
+        .nav .phone:hover {
+          background: var(--accent);
+          color: var(--ink);
+          border-color: var(--accent);
+        }
+        .nav .cta-btn {
+          display: inline-flex; align-items: center; gap: 10px;
+          padding: 12px 18px;
+          font-size: 13.5px;
+          font-weight: 500;
+          background: var(--porcelain);
+          color: var(--ink);
+          border-radius: 999px;
+          transition: transform var(--t-fast) var(--ease-out), background var(--t-fast) var(--ease-out);
+        }
+        .nav--scrolled .cta-btn, .nav--menu-open .cta-btn { background: var(--ink); color: var(--porcelain); }
+        .nav .cta-btn:hover { background: var(--accent); color: var(--ink); }
+        .nav .burger { display: none; }
+
+        /* ---- Mega-menu panel ---- */
+        .nav-mega {
+          position: fixed;
+          top: 100%;
+          left: 0; right: 0;
+          background: var(--porcelain);
+          border-bottom: 1px solid var(--line);
+          color: var(--ink);
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-8px);
+          transition: opacity var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-out), visibility var(--t-base) var(--ease-out);
+          padding: 36px var(--pad-x) 44px;
+        }
+        .nav-mega[data-open="true"] {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+        .nav-mega-inner {
+          max-width: var(--max);
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 2.4fr;
+          gap: 56px;
+          align-items: start;
+        }
+        .nav-mega-inner[data-layout="featured"] {
+          grid-template-columns: 1fr 1.6fr 0.9fr;
+          gap: 48px;
+          align-items: stretch;
+        }
+        .nav-mega-eyebrow {
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--grey);
+          margin-bottom: 12px;
+        }
+        .nav-mega-title {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: 38px;
+          line-height: 1.02;
+          letter-spacing: -0.025em;
+          margin-bottom: 14px;
+        }
+        .nav-mega-title em { font-style: italic; color: var(--accent); }
+        .nav-mega-lede {
+          font-size: 14px;
+          line-height: 1.55;
+          color: var(--navy-soft);
+          max-width: 32ch;
+        }
+        .nav-mega-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 4px 32px;
+        }
+        .nav-mega-grid[data-cols="1"] {
+          grid-template-columns: 1fr;
+        }
+
+        /* Featured blog tile */
+        .nav-feature {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          height: 100%;
+          color: var(--ink);
+          transition: transform var(--t-base) var(--ease-out);
+        }
+        .nav-feature:hover { transform: translateY(-2px); }
+        .nav-feature-thumb {
+          position: relative;
+          flex: 1 1 0;
+          min-height: 0;
+          border-radius: 6px;
+          overflow: hidden;
+          background: var(--ink);
+          isolation: isolate;
+        }
+        .nav-feature-img {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          object-fit: cover;
+          object-position: center;
+          transition: transform 800ms var(--ease-out);
+        }
+        .nav-feature:hover .nav-feature-img { transform: scale(1.04); }
+        .nav-feature-tag {
+          position: absolute;
+          top: 12px; left: 12px;
+          font-family: var(--mono);
+          font-size: 9.5px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          padding: 4px 8px;
+          border: 1px solid color-mix(in oklch, var(--porcelain) 30%, transparent);
+          border-radius: 999px;
+          background: color-mix(in oklch, var(--ink) 50%, transparent);
+          backdrop-filter: blur(6px);
+          color: var(--porcelain);
+          z-index: 2;
+        }
+        .nav-feature-body {
+          flex: 0 0 auto;
+          padding-top: 14px;
+        }
+        .nav-feature-eyebrow {
+          font-family: var(--mono);
+          font-size: 10px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--grey);
+          margin-bottom: 6px;
+        }
+        .nav-feature-title {
+          font-family: var(--display);
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 1.2;
+          letter-spacing: -0.015em;
+          margin-bottom: 10px;
+          text-wrap: balance;
+          color: var(--ink);
+        }
+        .nav-feature-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-family: var(--mono);
+          font-size: 10px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--accent);
+        }
+        .nav-feature-cta svg { transition: transform var(--t-fast) var(--ease-out); }
+        .nav-feature:hover .nav-feature-cta svg { transform: translateX(4px); }
+        .nav-mega-item {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          align-items: center;
+          gap: 16px;
+          padding: 16px 14px;
+          border-top: 1px solid var(--line);
+          border-radius: 4px;
+          transition: background var(--t-fast) var(--ease-out), padding-left var(--t-fast) var(--ease-out);
+          cursor: pointer;
+        }
+        .nav-mega-item:hover {
+          background: var(--bone);
+          padding-left: 20px;
+        }
+        .nav-mega-item:hover .nav-mega-arrow { transform: translateX(3px); opacity: 1; }
+        .nav-mega-item-label {
+          font-family: var(--display);
+          font-size: 18px;
+          letter-spacing: -0.015em;
+          line-height: 1.2;
+        }
+        .nav-mega-item-note {
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--grey);
+          margin-top: 4px;
+        }
+        .nav-mega-arrow {
+          opacity: 0.4;
+          transition: transform var(--t-fast) var(--ease-out), opacity var(--t-fast) var(--ease-out);
+          color: var(--ink);
+        }
+
+        @media (max-width: 980px) {
+          .nav .links, .nav .phone { display: none; }
+          .nav .brand { height: 40px; }
+          .nav .brand-logo { height: 40px; }
+          .nav .brand-logo--dark { height: 36px; }
+          .nav--scrolled .brand, .nav--menu-open .brand { height: 36px; }
+          .nav .cta-btn { padding: 10px 14px; font-size: 12.5px; gap: 6px; }
+          .nav .burger {
+            display: inline-flex; width: 44px; height: 44px;
+            border-radius: 50%; align-items: center; justify-content: center;
+            border: 1px solid color-mix(in oklch, currentColor 30%, transparent);
+          }
+          .nav-mega { display: none; }
+        }
+      `}</style>
+
+      <a href="#" className="brand" aria-label="Forever Smiles Implant Center home">
+        <img src="assets/logo-light.svg" alt="Forever Smiles Implant Center" className="brand-logo brand-logo--light" />
+        <img src="assets/logo-stack-dark.png" alt="" aria-hidden="true" className="brand-logo brand-logo--dark" />
+      </a>
+
+      <nav className="links" onMouseLeave={scheduleClose}>
+        <a href="#about" className="link" data-cursor="hover" onMouseEnter={() => openMenu(null)}>About Us</a>
+
+        <button
+          type="button"
+          className="link"
+          data-cursor="hover"
+          aria-expanded={activeMenu === "services"}
+          aria-haspopup="true"
+          onMouseEnter={() => openMenu("services")}
+          onFocus={() => openMenu("services")}
+          onClick={() => setActiveMenu(activeMenu === "services" ? null : "services")}
+        >
+          Services
+          <svg className="caret" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M2 4l3 3 3-3"/></svg>
+        </button>
+
+        <button
+          type="button"
+          className="link"
+          data-cursor="hover"
+          aria-expanded={activeMenu === "patients"}
+          aria-haspopup="true"
+          onMouseEnter={() => openMenu("patients")}
+          onFocus={() => openMenu("patients")}
+          onClick={() => setActiveMenu(activeMenu === "patients" ? null : "patients")}
+        >
+          For Patients
+          <svg className="caret" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M2 4l3 3 3-3"/></svg>
+        </button>
+
+        <a href="#consult" className="link" data-cursor="hover" onMouseEnter={() => openMenu(null)}>Contact</a>
+      </nav>
+
+      <div className="right">
+        <a href="tel:9044142320" className="phone" data-cursor="hover">(904) 414-2320</a>
+        <a href="#consult" className="cta-btn" data-cursor="hover">
+          Request consult
+          <ArrowRight size={12} />
+        </a>
+        <button className="burger" aria-label="Menu" onClick={() => setOpen(!open)}>
+          <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" strokeWidth="1.4">
+            <path d="M0 1h18M0 7h18M0 13h12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Mega menu panels */}
+      <div
+        className="nav-mega"
+        data-open={activeMenu === "services"}
+        onMouseEnter={() => openMenu("services")}
+        onMouseLeave={scheduleClose}
+      >
+        <div className="nav-mega-inner">
+          <div>
+            <div className="nav-mega-eyebrow">— Services</div>
+            <div className="nav-mega-title">Permanent <em>solutions.</em></div>
+            <p className="nav-mega-lede">
+              Surgeon-led, single-day full-arch implants and the supporting specialty work that
+              gets you there. One team, one location, one accountable surgeon.
+            </p>
+          </div>
+          <div className="nav-mega-grid" data-cols="2">
+            {services.map((s, i) => (
+              <a key={i} href={s.href} className="nav-mega-item" data-cursor="hover" onClick={() => setActiveMenu(null)}>
+                <div>
+                  <div className="nav-mega-item-label">{s.label}</div>
+                  <div className="nav-mega-item-note">{s.note}</div>
+                </div>
+                <span className="nav-mega-arrow"><ArrowRight size={14} /></span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="nav-mega"
+        data-open={activeMenu === "patients"}
+        onMouseEnter={() => openMenu("patients")}
+        onMouseLeave={scheduleClose}
+      >
+        <div className="nav-mega-inner" data-layout="featured">
+          <div>
+            <div className="nav-mega-eyebrow">— For Patients</div>
+            <div className="nav-mega-title">Everything you'll <em>need.</em></div>
+            <p className="nav-mega-lede">
+              From your first consultation to the day you forget your teeth aren't what you were
+              born with — clear answers, transparent investment, and a process you can trust.
+            </p>
+          </div>
+          <div className="nav-mega-grid" data-cols="1">
+            {patients.map((s, i) => (
+              <a key={i} href={s.href} className="nav-mega-item" data-cursor="hover" onClick={() => setActiveMenu(null)}>
+                <div>
+                  <div className="nav-mega-item-label">{s.label}</div>
+                  <div className="nav-mega-item-note">{s.note}</div>
+                </div>
+                <span className="nav-mega-arrow"><ArrowRight size={14} /></span>
+              </a>
+            ))}
+          </div>
+          <a href="#" className="nav-feature" data-cursor="hover" onClick={() => setActiveMenu(null)}>
+            <div className="nav-feature-thumb">
+              <img src="assets/step-surgery.jpg" alt="" className="nav-feature-img" aria-hidden />
+              <span className="nav-feature-tag">Featured</span>
+            </div>
+            <div className="nav-feature-body">
+              <div className="nav-feature-eyebrow">From the Blog · 6 min</div>
+              <div className="nav-feature-title">What to expect on Transformation Day.</div>
+              <span className="nav-feature-cta">
+                Read article
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+}
+window.Nav = Nav;
+
+
+/* ---------- Hero ---------- */
+function Hero() {
+  const [muted, setMuted] = React.useState(true);
+  const [progress, setProgress] = React.useState(0);
+
+  React.useEffect(() => {
+    const onScroll = () => {
+      const h = window.innerHeight;
+      const p = Math.min(1, Math.max(0, window.scrollY / h));
+      setProgress(p);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Add .split-ready after mount so the headline animates in on load
+  // Also trigger hero footer reveals directly (bypass scroll observer)
+  const heroRef = React.useRef(null);
+  React.useEffect(() => {
+    const el = heroRef.current;
+    const stats = Array.from(el?.querySelectorAll(".hero-stat") || []);
+    const ids = [
+      setTimeout(() => el?.classList.add("split-ready"), 150),
+      setTimeout(() => el?.querySelector(".hero-foot-lede")?.classList.add("is-in"), 500),
+      setTimeout(() => el?.querySelector(".hero-actions")?.classList.add("is-in"), 680),
+      ...stats.map((s, i) => setTimeout(() => s.classList.add("is-in"), 800 + i * 220)),
+    ];
+    return () => ids.forEach(clearTimeout);
+  }, []);
+
+  return (
+    <section className="hero" ref={heroRef}>
+      <style>{`
+        .hero {
+          position: relative;
+          min-height: 100vh;
+          color: var(--porcelain);
+          background: var(--ink);
+          overflow: hidden;
+          display: flex; flex-direction: column;
+        }
+        .hero-media {
+          position: absolute; inset: 0;
+          z-index: 0;
+        }
+        .hero-media .media {
+          width: 100%; height: 100%;
+          border-radius: 0;
+          aspect-ratio: auto;
+        }
+        .hero-veil {
+          position: absolute; inset: 0; z-index: 1;
+          background:
+            linear-gradient(180deg, color-mix(in oklch, var(--ink) 70%, transparent) 0%, color-mix(in oklch, var(--ink) 30%, transparent) 35%, color-mix(in oklch, var(--ink) 35%, transparent) 55%, color-mix(in oklch, var(--ink) 88%, transparent) 100%),
+            linear-gradient(90deg, color-mix(in oklch, var(--ink) 50%, transparent) 0%, transparent 55%);
+          pointer-events: none;
+        }
+        .hero-content {
+          position: relative;
+          z-index: 2;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          padding: 140px var(--pad-x) 36px;
+          max-width: var(--max);
+          width: 100%;
+          margin: 0 auto;
+        }
+        .hero-top {
+          display: flex; justify-content: space-between; align-items: start;
+          gap: 24px;
+          margin-bottom: 1em;
+        }
+        .hero-eyebrow {
+          font-family: var(--mono);
+          font-size: 11.5px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          font-weight: 600;
+          color: color-mix(in oklch, var(--porcelain) 80%, transparent);
+          display: flex; align-items: center; gap: 14px;
+        }
+        .hero-eyebrow .dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: var(--accent);
+          flex-shrink: 0;
+        }
+        .hero-meta {
+          font-family: var(--mono);
+          font-size: 11px; letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 65%, transparent);
+          text-align: right;
+        }
+        .hero-meta span { display: block; }
+        .hero-title-wrap {
+          padding-block: 0 32px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 40px;
+        }
+        .hero-title {
+          font-family: var(--display);
+          font-weight: 400;
+          letter-spacing: -0.04em;
+          line-height: 0.92;
+          font-size: clamp(56px, 9.5vw, 168px);
+          flex: 1;
+          min-width: 0;
+        }
+        .hero-title em {
+          font-style: italic;
+          font-weight: 300;
+          font-family: "Bricolage Grotesque";
+          color: color-mix(in oklch, var(--accent) 80%, var(--porcelain));
+        }
+        .hero-foot {
+          margin-top: auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          gap: 32px;
+          padding-top: 48px;
+        }
+        .hero-foot-left {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 28px;
+        }
+        .hero-stats {
+          display: flex;
+          align-items: flex-end;
+          gap: 44px;
+          flex-shrink: 0;
+        }
+        .hero-foot-lede {
+          font-size: clamp(16px, 1.2vw, 19px);
+          line-height: 1.4;
+          color: color-mix(in oklch, var(--porcelain) 86%, transparent);
+          letter-spacing: -0.005em;
+          max-width: 36ch;
+        }
+        .hero-actions {
+          display: flex; gap: 12px;
+          justify-content: flex-start;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+        .hero-stat {
+          text-align: left;
+        }
+        .hero-stat-num {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(32px, 3.4vw, 56px);
+          letter-spacing: -0.035em;
+          line-height: 1;
+          display: flex; align-items: baseline; gap: 2px;
+          color: var(--porcelain);
+          margin-bottom: 8px;
+        }
+        .hero-stat-num .suf {
+          font-size: 0.42em;
+          color: var(--accent-soft);
+          letter-spacing: 0;
+        }
+        .hero-stat-label {
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.13em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 50%, transparent);
+          line-height: 1.5;
+        }
+        .hero-controls {
+          flex-shrink: 0;
+        }
+        .play-btn-lg {
+          width: 96px; height: 96px;
+          border-radius: 50%;
+          background: color-mix(in oklch, var(--porcelain) 14%, transparent);
+          border: 1px solid color-mix(in oklch, var(--porcelain) 28%, transparent);
+          color: var(--porcelain);
+          display: grid; place-items: center;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          position: relative;
+          transition: background var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-out), border-color var(--t-base) var(--ease-out);
+        }
+        .play-btn-lg::before {
+          content: ""; position: absolute; inset: -10px;
+          border-radius: 50%;
+          border: 1px solid color-mix(in oklch, var(--porcelain) 22%, transparent);
+          animation: ringPulse 2.6s var(--ease-out) infinite;
+        }
+        @keyframes ringPulse {
+          0%   { transform: scale(0.94); opacity: 0.8; }
+          70%  { transform: scale(1.18); opacity: 0; }
+          100% { transform: scale(1.18); opacity: 0; }
+        }
+        .play-btn-lg:hover {
+          background: var(--porcelain);
+          color: var(--ink);
+          transform: scale(1.04);
+          border-color: var(--porcelain);
+        }
+        .play-btn-lg svg { transform: translateX(2px); }
+        .scroll-cue {
+          position: absolute;
+          z-index: 3;
+          left: var(--pad-x); bottom: 36px;
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 70%, transparent);
+          display: flex; align-items: center; gap: 12px;
+        }
+        .scroll-cue .bar {
+          display: inline-block;
+          width: 56px; height: 1px;
+          background: currentColor; opacity: 0.4;
+          position: relative;
+        }
+        .scroll-cue .bar::after {
+          content: ""; position: absolute; inset: 0;
+          background: var(--accent); transform-origin: left center;
+          animation: scrollbar 3s var(--ease-in-out) infinite;
+        }
+        @keyframes scrollbar {
+          0% { transform: scaleX(0); transform-origin: left center; }
+          50% { transform: scaleX(1); transform-origin: left center; }
+          50.01% { transform-origin: right center; }
+          100% { transform: scaleX(0); transform-origin: right center; }
+        }
+        @media (max-width: 880px) {
+          .hero-foot { flex-direction: column; align-items: flex-start; gap: 28px; }
+          .hero-stats { gap: 20px; }
+          .hero-controls { display: none; }
+        }
+      `}</style>
+
+      {/* Background media */}
+      <div className="hero-media" style={{ transform: `scale(${1 + progress * 0.05})` }}>
+        <img
+          src="assets/hero-team.jpg"
+          alt="Dr. Young's team celebrating a patient's new smile"
+          style={{
+            position: "absolute", inset: 0,
+            width: "100%", height: "100%",
+            objectFit: "cover",
+            objectPosition: "center 35%",
+          }}
+        />
+      </div>
+
+      {/* Veil */}
+      <div className="hero-veil" />
+
+      {/* Foreground content */}
+      <div className="hero-content">
+        <div className="hero-top">
+          <div className="hero-eyebrow">
+            <span className="dot" aria-hidden></span>
+            <span>Jacksonville's Full-Arch Implant Specialist</span>
+          </div>
+        </div>
+
+        <div className="hero-title-wrap">
+          <h1 className="hero-title">
+            <SplitText delayBase={70}>Permanent teeth.</SplitText>
+            <br />
+            <SplitText delayBase={70} style={{ color: "var(--accent-soft)" }}>In a single day.</SplitText>
+          </h1>
+          <div className="hero-controls">
+            <button className="play-btn-lg" aria-label="Play hero reel">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div className="hero-foot">
+          <div className="hero-foot-left">
+            <div className="hero-foot-lede" data-reveal style={{ "--reveal-delay": "0ms" }}>
+              A surgeon-led, full-arch implant center designed around one outcome —
+              restoring your smile, your confidence, and the way you live.
+            </div>
+            <div className="hero-actions" data-reveal style={{ "--reveal-delay": "0ms" }}>
+              <MagneticButton className="btn btn--light">
+                Request consultation
+                <ArrowRight />
+              </MagneticButton>
+            </div>
+          </div>
+
+          <div className="hero-stats">
+            {[
+              { v: 15000, suf: "+", l: "Implants placed" },
+              { v: 24, suf: " yrs", l: "In practice" },
+              { v: 30, suf: "/mo", l: "Full arches restored" },
+            ].map((s, i) => (
+              <div className="hero-stat" key={i} data-reveal>
+                <div className="hero-stat-num"><Counter to={s.v} /><span className="suf">{s.suf}</span></div>
+                <div className="hero-stat-label">{s.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+    </section>
+  );
+}
+window.Hero = Hero;
+
+
+/* ---------- Credentials marquee ---------- */
+function Marquee() {
+  const items = [
+    "Residency-Trained Surgical Specialist",
+    "MD Anesthesiologist On Staff",
+    "15,000+ Implants Placed",
+    "Faculty · The Pankey Institute",
+    "Editorial Board · Implant Practice US",
+    "Author · Implant Surgery Textbooks",
+    "Same-Day Permanent Teeth",
+    "Zygomatic & Pterygoid Specialist",
+  ];
+  const repeated = [...items, ...items];
+  return (
+    <section className="marquee-sec">
+      <style>{`
+        .marquee-sec {
+          background: var(--ink);
+          color: var(--porcelain);
+          padding: 44px 0;
+          overflow: hidden;
+          position: relative;
+          border-block: 1px solid color-mix(in oklch, var(--porcelain) 14%, transparent);
+        }
+        .marquee-track {
+          display: flex;
+          gap: 56px;
+          width: max-content;
+          animation: marquee 60s linear infinite;
+        }
+        .marquee-sec:hover .marquee-track { animation-play-state: paused; }
+        .marquee-item {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(20px, 2.4vw, 34px);
+          letter-spacing: -0.02em;
+          display: inline-flex; align-items: center; gap: 56px;
+          white-space: nowrap;
+          color: color-mix(in oklch, var(--porcelain) 88%, transparent);
+        }
+        .marquee-item .sep {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: var(--accent);
+        }
+        @keyframes marquee {
+          to { transform: translateX(-50%); }
+        }
+      `}</style>
+      <div className="marquee-track" aria-hidden>
+        {repeated.map((it, i) => (
+          <span className="marquee-item" key={i}>
+            {it}
+            <span className="sep" />
+          </span>
+        ))}
+      </div>
+    </section>
+  );
+}
+window.Marquee = Marquee;
+
+
+/* ---------- The Promise (problem → outcome) ---------- */
+function PromiseSection() {
+  return (
+    <section id="promise" className="promise sec">
+      <style>{`
+        .promise { background: var(--porcelain); }
+        .promise-grid {
+          display: grid;
+          grid-template-columns: 1fr 1.1fr;
+          grid-template-rows: auto auto;
+          gap: clamp(32px, 4vw, 64px) clamp(40px, 6vw, 96px);
+          align-items: start;
+        }
+        .promise-grid > div:first-child {
+          grid-column: 1 / -1;
+        }
+        .promise-body {
+          grid-column: 1 / 2;
+          grid-row: 2;
+        }
+        .promise-list-col {
+          grid-column: 2 / 3;
+          grid-row: 2;
+        }
+        .promise-eyebrow {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          font-weight: 600;
+          color: var(--grey);
+          display: flex; align-items: center; gap: 0;
+          margin-bottom: 28px;
+        }
+        .promise-eyebrow .num {
+          font-variant-numeric: tabular-nums;
+          color: var(--ink);
+        }
+        .promise-h {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(36px, 5.2vw, 80px);
+          line-height: 1.0;
+          letter-spacing: -0.03em;
+
+        }
+        .promise-h em { font-style: italic; color: var(--accent); }
+        .promise-body p {
+          font-size: clamp(17px, 1.25vw, 20px);
+          line-height: 1.55;
+          color: var(--navy-soft);
+          letter-spacing: -0.005em;
+          margin-bottom: 18px;
+          max-width: 52ch;
+        }
+        .promise-body p strong {
+          color: var(--ink); font-weight: 500;
+        }
+        .promise-list {
+          margin-top: 0;
+          display: grid; gap: 0;
+          border-top: 1px solid var(--line);
+        }
+        .promise-row {
+          display: grid;
+          grid-template-columns: 56px 1fr;
+          gap: 24px;
+          padding: 22px 0;
+          border-bottom: 1px solid var(--line);
+          align-items: center;
+        }
+        .promise-row .idx {
+          display: flex;
+          align-items: center;
+          color: var(--accent);
+          opacity: 0.85;
+        }
+        .promise-row .label {
+          font-family: var(--display);
+          font-size: clamp(20px, 1.6vw, 26px);
+          letter-spacing: -0.015em;
+        }
+        @media (max-width: 880px) {
+          .promise-grid { grid-template-columns: 1fr; }
+          .promise-body, .promise-list-col { grid-column: auto; grid-row: auto; }
+        }
+      `}</style>
+
+      <div className="container">
+        <div className="promise-grid">
+          <div>
+            <Reveal>
+              <div className="promise-eyebrow">
+                <span className="dot" aria-hidden />
+                <span>The Forever Smiles Promise</span>
+              </div>
+            </Reveal>
+            <SplitText className="promise-h" delayBase={50}>
+              Built for the patients dentistry forgot.
+            </SplitText>
+          </div>
+
+          <div className="promise-body">
+            <Reveal delay={150}>
+              <p>
+                Most people who call us have spent <strong>years</strong> cycling through
+                root canals, crowns, and dentures that never quite worked.
+                Some have been told they aren't candidates for implants at all.
+              </p>
+              <p>
+                Forever Smiles exists for them. We do <strong>one thing</strong> — full-mouth
+                implant reconstruction — and we do it every single day, under one roof,
+                with a coordinated surgical team. You leave your first day of treatment
+                with a permanent, fixed set of teeth. You leave the rest of your life
+                with the smile you should have had all along.
+              </p>
+            </Reveal>
+          </div>
+
+          <div className="promise-list-col">
+            <Reveal delay={300}>
+              <div className="promise-list">
+                {[
+                  {
+                    label: "Same-day teeth", sub: "All-on-X · Fixed · Zirconia",
+                    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                  },
+                  {
+                    label: "Surgeon-led, every step", sub: "Not a salesperson. Not a corporate model.",
+                    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                  },
+                  {
+                    label: "MD anesthesiologist on staff", sub: "You sleep. We work. Safer monitoring.",
+                    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="14"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
+                  },
+                  {
+                    label: "Solutions for severe bone loss", sub: "Zygomatic, pterygoid, transnasal — no graft, no wait",
+                    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  },
+                ].map(({ label, sub, icon }, i) => (
+                  <div className="promise-row" key={i}>
+                    <span className="idx">{icon}</span>
+                    <div>
+                      <div className="label">{label}</div>
+                      <div style={{ fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.04em", color: "var(--grey)", marginTop: 4 }}>{sub}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+window.PromiseSection = PromiseSection;
+
+
+/* ---------- Outcomes (Patient Testimonial Videos) ---------- */
+function Outcomes() {
+  const videos = [
+    { name: "Diana", age: 64, location: "Ponte Vedra, FL", note: "Long-term denture wearer · Full-arch zirconia", quote: "I haven't smiled in photographs in fifteen years. Now I can't stop.", length: "2:14", img: "assets/patient-diana.jpg" },
+    { name: "Marcus", age: 58, location: "St. Augustine, FL", note: "Zygomatic implants · Severe bone loss", quote: "Three other places told me I'd need bone grafts and a year of waiting.", length: "3:02", img: "assets/patient-marcus.jpg" },
+    { name: "Robert", age: 68, location: "Jacksonville, FL", note: "Failing dentition · Same-day teeth", quote: "I walked in with teeth that were failing me. I walked out with a permanent smile.", length: "1:58", img: "assets/patient-robert.jpg" },
+    { name: "Patricia", age: 71, location: "Jacksonville, FL", note: "Failing dentition · Full-mouth reconstruction", quote: "He spent an hour with me. The salesperson at the other place spent fifteen minutes.", length: "1:48", img: "assets/patient-patricia.jpg" },
+  ];
+
+  return (
+    <section id="outcomes" className="outcomes dark sec">
+      <style>{`
+        .outcomes {
+          background: var(--ink);
+          color: var(--porcelain);
+        }
+        .outcomes-head {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px;
+          align-items: end;
+          margin-bottom: 56px;
+        }
+        .outcomes-meta {
+          font-size: 16px; line-height: 1.5;
+          color: color-mix(in oklch, var(--porcelain) 75%, transparent);
+          max-width: 38ch;
+          justify-self: end;
+          align-self: end;
+        }
+        .outcomes-eyebrow {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          font-weight: 600;
+          color: color-mix(in oklch, var(--porcelain) 60%, transparent);
+          display: flex; align-items: center; gap: 0; margin-bottom: 28px;
+        }
+        .outcomes-h {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(40px, 6vw, 96px);
+          line-height: 0.95;
+          letter-spacing: -0.03em;
+        }
+        .outcomes-h .split-line {
+          padding-right: 0.12em;
+        }
+
+        /* Video grid */
+        .video-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+        }
+        .video-card {
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+          cursor: pointer;
+        }
+        .video-thumb {
+          position: relative;
+          aspect-ratio: 9 / 11;
+          border-radius: 4px;
+          overflow: hidden;
+          background: var(--navy);
+          transition: transform var(--t-base) var(--ease-out);
+        }
+        .video-thumb img {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          object-fit: cover;
+          object-position: center top;
+        }
+        .video-card:hover .video-thumb { transform: scale(1.02); }
+        .video-play {
+          position: absolute; inset: 0;
+          display: grid; place-items: center;
+          z-index: 2;
+        }
+        .video-play-btn {
+          width: 56px; height: 56px;
+          border-radius: 50%;
+          background: color-mix(in oklch, var(--porcelain) 16%, transparent);
+          border: 1px solid color-mix(in oklch, var(--porcelain) 30%, transparent);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          display: grid; place-items: center;
+          color: var(--porcelain);
+          transition: background var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-out);
+        }
+        .video-card:hover .video-play-btn {
+          background: var(--accent);
+          transform: scale(1.08);
+        }
+        .video-play-btn svg { transform: translateX(1px); }
+        .video-len {
+          position: absolute;
+          bottom: 12px; right: 12px;
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.1em;
+          padding: 5px 9px;
+          background: color-mix(in oklch, var(--ink) 60%, transparent);
+          backdrop-filter: blur(6px);
+          border-radius: 2px;
+          color: color-mix(in oklch, var(--porcelain) 85%, transparent);
+        }
+        .video-info {
+          padding: 18px 0 0;
+          border-top: 1px solid color-mix(in oklch, var(--porcelain) 14%, transparent);
+          margin-top: 16px;
+        }
+        .video-name {
+          font-family: var(--display);
+          font-size: clamp(18px, 1.5vw, 22px);
+          letter-spacing: -0.015em;
+          margin-bottom: 4px;
+        }
+        .video-note {
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 55%, transparent);
+          margin-bottom: 10px;
+        }
+        .video-quote {
+          font-size: 14.5px;
+          line-height: 1.5;
+          color: color-mix(in oklch, var(--porcelain) 75%, transparent);
+          font-style: italic;
+        }
+
+        @media (max-width: 880px) {
+          .outcomes-head { grid-template-columns: 1fr; gap: 24px; }
+          .outcomes-meta { justify-self: start; align-self: start; }
+          .video-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+        }
+      `}</style>
+
+      <div className="container">
+        <div className="outcomes-head">
+          <div>
+            <Reveal><div className="outcomes-eyebrow"><span className="dot" aria-hidden /><span>Patient Stories</span></div></Reveal>
+            <span className="outcomes-h">
+              <SplitText delayBase={60}>Real patients.</SplitText>
+              <br />
+              <SplitText delayBase={60} startDelay={120}>Real outcomes.</SplitText>
+              <br />
+              <SplitText delayBase={60} startDelay={240} style={{ fontStyle: "italic", color: "var(--accent-soft)" }}>Their words.</SplitText>
+            </span>
+          </div>
+          <Reveal delay={300} className="outcomes-meta">
+            Every story below is a Transformation Day patient — permanent teeth
+            placed by Dr. Young, same day as surgery.
+          </Reveal>
+        </div>
+
+        <div className="video-grid">
+          {videos.map((v, i) => (
+            <Reveal key={i} delay={i * 100}>
+              <div className="video-card" data-cursor="hover">
+                <div className="video-thumb">
+                  <img src={v.img} alt={v.name} />
+                  <div className="video-play">
+                    <button className="video-play-btn" aria-label={`Play ${v.name}'s story`}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>
+                    </button>
+                  </div>
+                  <span className="video-len">{v.length}</span>
+                  <span className="grain" />
+                </div>
+                <div className="video-info">
+                  <div className="video-name">{v.name}, {v.age} — {v.location}</div>
+                  <div className="video-note">{v.note}</div>
+                  <div className="video-quote">"{v.quote}"</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+
+      </div>
+    </section>
+  );
+}
+window.Outcomes = Outcomes;
+
+
+/* ---------- Surgeon (Dr. Young) ---------- */
+function Surgeon() {
+  return (
+    <section id="surgeon" className="surgeon sec">
+      <style>{`
+        .surgeon { background: var(--bone); }
+        .surgeon-top {
+          display: grid;
+          grid-template-columns: 5fr 6fr;
+          gap: clamp(24px, 3vw, 48px) clamp(40px, 5vw, 80px);
+          align-items: center;
+          margin-bottom: 56px;
+        }
+        .surgeon-body {
+        }
+        .surgeon-eyebrow {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          font-weight: 600;
+          color: var(--grey);
+          display: flex; align-items: center; gap: 0;
+          margin-bottom: 28px;
+        }
+        .surgeon-h {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(28px, 3.6vw, 56px);
+          line-height: 0.98;
+          letter-spacing: -0.03em;
+          margin-bottom: 32px;
+          display: block;
+        }
+        .surgeon-h em { font-style: italic; color: var(--accent); }
+        .surgeon-body p {
+          font-size: 16px; line-height: 1.6;
+          color: var(--navy-soft);
+          margin-bottom: 14px;
+          max-width: 44ch;
+        }
+        .surgeon-quote-wrap {
+          padding: 24px 0 0;
+          margin-top: 20px;
+          border-top: 1px solid var(--line);
+          display: flex;
+          gap: 16px;
+          align-items: start;
+        }
+        .surgeon-quote-mark {
+          font-family: var(--display);
+          font-style: italic;
+          font-size: clamp(40px, 4vw, 60px);
+          line-height: 0.7;
+          color: var(--accent);
+          letter-spacing: -0.04em;
+          flex: 0 0 auto;
+        }
+        .surgeon-quote-wrap > div { flex: 1; }
+        .surgeon-quote {
+          font-family: var(--display);
+          font-weight: 300;
+          font-style: italic;
+          font-size: clamp(18px, 1.7vw, 26px);
+          line-height: 1.4;
+          letter-spacing: -0.02em;
+          color: var(--ink);
+          margin-bottom: 12px;
+        }
+        .surgeon-quote-attr {
+          font-family: var(--mono);
+          font-size: 10px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--grey);
+        }
+        .creds {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0;
+          border-top: 1px solid var(--line);
+        }
+        .cred {
+          padding: 22px 0;
+          border-bottom: 1px solid var(--line);
+          display: grid;
+          grid-template-columns: 56px 1fr;
+          gap: 16px;
+          align-items: start;
+        }
+        .cred:nth-child(odd) { padding-right: 24px; border-right: 1px solid var(--line); padding-left: 0; }
+        .cred:nth-child(even) { padding-left: 24px; }
+        .cred-icon {
+          display: flex;
+          align-items: flex-start;
+          padding-top: 2px;
+          color: var(--accent);
+          opacity: 0.8;
+        }
+        .cred .label {
+          font-family: var(--display);
+          font-size: 18px;
+          letter-spacing: -0.01em;
+          line-height: 1.25;
+        }
+        .cred .sub {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.06em;
+          color: var(--grey);
+          margin-top: 4px;
+          text-transform: uppercase;
+        }
+        .surgeon-photo {
+          aspect-ratio: 4 / 5;
+          border-radius: 4px;
+          overflow: hidden;
+        }
+        .surgeon-photo img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          display: block;
+        }
+        @media (max-width: 880px) {
+          .surgeon-top { grid-template-columns: 1fr; }
+          .surgeon-photo { aspect-ratio: 16 / 9; }
+          .surgeon-quote-wrap { flex-direction: column; }
+          .creds { grid-template-columns: 1fr; }
+          .cred:nth-child(odd) { border-right: none; padding-right: 0; }
+          .cred:nth-child(even) { padding-left: 0; }
+        }
+      `}</style>
+
+      <div className="container">
+        <div className="surgeon-top">
+          <Reveal delay={100} className="surgeon-photo">
+            <img src="assets/dr-young.jpg" alt="Dr. Brian Young" />
+          </Reveal>
+
+          <Reveal delay={200} className="surgeon-body">
+            <div className="surgeon-eyebrow">
+              <span className="dot" aria-hidden />
+              <span>Your Surgeon</span>
+            </div>
+            <SplitText className="surgeon-h" delayBase={45}>
+              Experience is expensive.<br />So is inexperience.
+            </SplitText>
+            <p>
+              Dr. Young is a residency-trained periodontist who has dedicated the last
+              decade exclusively to full-arch implant reconstruction. Beyond his practice,
+              he teaches the surgeons who teach others — as faculty at The Pankey Institute,
+              on the editorial board of <em>Implant Practice US</em>, and through international
+              lecturing on advanced techniques.
+            </p>
+            <p>
+              He personally meets with every candidate. Not a salesperson. Not a treatment
+              coordinator first. The doctor who will perform your surgery.
+            </p>
+            <div className="surgeon-quote-wrap">
+              <span className="surgeon-quote-mark" aria-hidden>"</span>
+              <div>
+                <p className="surgeon-quote">
+                  Most centers advertising All-on-4 are run by general dentists with weekend
+                  training. Patients deserve a residency-trained surgical specialist who does
+                  this every single day.
+                </p>
+                <div className="surgeon-quote-attr">— Dr. Brian Young, DDS · Founder &amp; Surgical Director</div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+
+        <Reveal delay={250}>
+          <div className="creds">
+            {[
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3.33 1.67 8.67 1.67 12 0v-5"/></svg>,
+                label: "UNC Chapel Hill", abbr: "DDS", sub: "Doctor of Dental Surgery"
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M3 10h18M8 6V4M16 6V4"/></svg>,
+                label: "University of Florida", abbr: "Residency", sub: "Periodontics & IV Anesthesia"
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>,
+                label: "The Pankey Institute", abbr: "Faculty", sub: "Implant Essentials"
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
+                label: "Implant Practice US", abbr: "Editorial", sub: "Review Board Member"
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+                label: "Jacksonville Dental Society", abbr: "Leadership", sub: "Past Board Member"
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+                label: "Implant Surgery Textbooks", abbr: "Author", sub: "Chapters & Journals"
+              },
+            ].map(({ icon, label, abbr, sub }, i) => (
+              <div className="cred" key={i}>
+                <span className="cred-icon">{icon}</span>
+                <div>
+                  <div className="label">{label}</div>
+                  <div className="sub">{abbr} · {sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+window.Surgeon = Surgeon;
+
+
+/* ---------- Process (Patient Journey) ---------- */
+function Process() {
+  const steps = [
+    {
+      n: "01",
+      title: "Consultation",
+      sub: "Free · 60 minutes · With Dr. Young",
+      body: "A 3D CT scan, a digital scan of your face, and an AI-generated preview of your new smile. You meet directly with the surgeon — not a salesperson — to walk through what's possible.",
+      tag: "DAY 01",
+      img: "assets/step-consultation.jpg"
+    },
+    {
+      n: "02",
+      title: "Smile Design",
+      sub: "Digital · Pre-surgical planning",
+      body: "We design your new teeth and the position of every implant before you ever come in for surgery. Predictability begins long before Transformation Day.",
+      tag: "WEEKS 01–02",
+      img: "assets/step-design.jpg"
+    },
+    {
+      n: "03",
+      title: "Transformation Day",
+      sub: "Surgical · Under general anesthesia",
+      body: "Implants placed and a full set of fixed teeth attached the same day, while you sleep. An MD anesthesiologist monitors every minute of the procedure.",
+      tag: "DAY 01 · IN-OFFICE",
+      img: "assets/step-surgery.jpg"
+    },
+    {
+      n: "04",
+      title: "Healing & Prototype",
+      sub: "Follow-ups over 4–6 months",
+      body: "A prototype set lets us refine the bite, the lip support, the smile line — making sure your final teeth fit your face and your life perfectly.",
+      tag: "MONTHS 01–06",
+      img: "assets/step-prototype.jpg"
+    },
+    {
+      n: "05",
+      title: "Forever Smiles Teeth",
+      sub: "Final · Full-arch zirconia",
+      body: "Your permanent restoration: monolithic zirconia, hand-finished, designed to last. Strong enough to eat anything. Beautiful enough to forget they're not what you were born with.",
+      tag: "MONTH 06",
+      img: "assets/step-lab.jpg"
+    },
+    {
+      n: "06",
+      title: "Forever Smiles Protection",
+      sub: "Long-term · Lifetime care",
+      body: "Annual maintenance, hygiene, and warranty support — so your investment, and your smile, are protected for life.",
+      tag: "YEARS 01+",
+      img: "assets/step-care.jpg"
+    },
+  ];
+
+  const [active, setActive] = React.useState(0);
+
+  return (
+    <section id="process" className="process sec">
+      <style>{`
+        .process { background: var(--porcelain); }
+        .process-head {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto auto;
+          gap: 24px 32px;
+          align-items: end;
+          margin-bottom: 64px;
+        }
+        .process-head > div:first-child {
+          grid-column: 1 / -1;
+        }
+        .process-head > .lede {
+          grid-column: 1 / 2;
+          grid-row: 2;
+        }
+        .process-h {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(40px, 5.4vw, 84px);
+          line-height: 0.96;
+          letter-spacing: -0.03em;
+        }
+        .process-h em { font-style: italic; color: var(--accent); }
+        .process-stage {
+          display: grid;
+          grid-template-columns: 1fr 1.2fr;
+          gap: 64px;
+          align-items: start;
+        }
+        .step-list {
+          display: grid;
+          gap: 0;
+          border-top: 1px solid var(--line);
+        }
+        .step {
+          display: grid;
+          grid-template-columns: 60px 1fr auto;
+          gap: 24px;
+          padding: 26px 4px;
+          border-bottom: 1px solid var(--line);
+          align-items: center;
+          cursor: pointer;
+          transition: padding-left var(--t-base) var(--ease-out), background var(--t-base) var(--ease-out);
+          position: relative;
+        }
+        .step::before {
+          content: ""; position: absolute;
+          left: 0; top: 0; bottom: 0; width: 2px;
+          background: var(--accent);
+          transform: scaleY(0); transform-origin: top;
+          transition: transform var(--t-base) var(--ease-out);
+        }
+        .step.active::before { transform: scaleY(1); }
+        .step.active { padding-left: 18px; }
+        .step .n {
+          font-family: var(--mono);
+          font-size: 11.5px; letter-spacing: 0.1em;
+          color: var(--grey);
+        }
+        .step.active .n { color: var(--accent); }
+        .step .title {
+          font-family: var(--display);
+          font-weight: 400;
+          font-size: clamp(20px, 1.7vw, 26px);
+          letter-spacing: -0.015em;
+          line-height: 1.15;
+        }
+        .step .sub {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--grey);
+          margin-top: 4px;
+        }
+        .step .arrow {
+          opacity: 0.4;
+          transition: opacity var(--t-fast) var(--ease-out), transform var(--t-fast) var(--ease-out);
+        }
+        .step.active .arrow { opacity: 1; transform: translateX(4px); }
+        .step:hover .arrow { opacity: 1; transform: translateX(4px); }
+        .step-detail {
+          position: sticky; top: 110px;
+          background: var(--bone);
+          border-radius: 4px;
+          border: 1px solid var(--line);
+          overflow: hidden;
+        }
+        .step-media {
+          width: 100%;
+          height: 280px;
+          aspect-ratio: auto;
+          border-radius: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .step-detail-body {
+          padding: 28px;
+        }
+        .step-detail-tag {
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--accent);
+          margin-bottom: 12px;
+        }
+        .step-detail-title {
+          font-family: var(--display);
+          font-size: clamp(28px, 3vw, 44px);
+          letter-spacing: -0.02em;
+          margin-bottom: 12px;
+          line-height: 1.05;
+        }
+        .step-detail-sub {
+          font-family: var(--mono);
+          font-size: 12px;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          color: var(--grey);
+          margin-bottom: 20px;
+        }
+        .step-detail-body p {
+          font-size: 16.5px;
+          line-height: 1.55;
+          color: var(--navy-soft);
+        }
+        @media (max-width: 880px) {
+          .process-head { grid-template-columns: 1fr; }
+          .process-stage { grid-template-columns: 1fr; }
+          .step-detail-aside { display: none; }
+          .step-detail-inline {
+            display: block;
+            background: var(--bone);
+            border-radius: 4px;
+            border: 1px solid var(--line);
+            overflow: hidden;
+            margin: 0 0 2px;
+          }
+          .step-detail-inline .step-media {
+            width: 100%;
+            height: 200px;
+            aspect-ratio: auto;
+            border-radius: 0;
+            border-bottom: 1px solid var(--line);
+            object-fit: cover;
+          }
+          .step-detail-inline .step-detail-body { padding: 20px; }
+        }
+        @media (min-width: 881px) {
+          .step-detail-inline { display: none; }
+          .step-detail-aside { display: block; }
+        }
+      `}</style>
+
+      <div className="container">
+        <div className="process-head">
+          <div>
+            <Reveal>
+              <div className="eyebrow"><span className="dot" />The Patient Journey</div>
+            </Reveal>
+            <SplitText className="process-h" delayBase={50}>
+              Six steps. One outcome. <em>Predictable.</em>
+            </SplitText>
+          </div>
+          <Reveal delay={300}>
+            <p className="lede" style={{ maxWidth: "42ch" }}>
+              From the first call to the day you forget your teeth aren't what you were born with —
+              every step is choreographed by the same surgical team, under one roof.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="process-stage">
+          <div className="step-list">
+            {steps.map((s, i) => (
+              <React.Fragment key={i}>
+                <div
+                  className={`step ${i === active ? "active" : ""}`}
+                  onMouseEnter={() => setActive(i)}
+                  onClick={() => setActive(i)}
+                  data-cursor="hover"
+                >
+                  <span className="n">{s.n}</span>
+                  <div>
+                    <div className="title">{s.title}</div>
+                    <div className="sub">{s.sub}</div>
+                  </div>
+                  <span className="arrow">
+                    <ArrowRight />
+                  </span>
+                </div>
+                {i === active && (
+                  <div className="step-detail-inline">
+                    <img src={s.img} alt={s.title} className="step-media" />
+                    <div className="step-detail-body">
+                      <div className="step-detail-tag">{s.tag}</div>
+                      <div className="step-detail-title">{s.title}</div>
+                      <div className="step-detail-sub">{s.sub}</div>
+                      <p>{s.body}</p>
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
+          <div className="step-detail step-detail-aside">
+            <img
+              key={`m-${active}`}
+              src={steps[active].img}
+              alt={steps[active].title}
+              className="step-media"
+              style={{ objectFit: "cover" }}
+            />
+            <div className="step-detail-body" key={active}>
+              <div className="step-detail-tag">{steps[active].tag}</div>
+              <div className="step-detail-title">{steps[active].title}</div>
+              <div className="step-detail-sub">{steps[active].sub}</div>
+              <p>{steps[active].body}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+window.Process = Process;
+
+
+/* ---------- Why Forever Smiles is different ---------- */
+function Why() {
+  const cards = [
+    {
+      n: "I",
+      title: <>Surgeon-led, not<br />sales-led</>,
+      body: "ClearChoice and Nuvia send patients to salespeople. Here, you sit with the doctor performing your surgery — for up to an hour — at every consultation.",
+      tag: "Surgical specialty",
+      img: "assets/dr-young.jpg"
+    },
+    {
+      n: "II",
+      title: "MD anesthesiologist on staff",
+      body: "Most centers use a CRNA or nurse for IV sedation. We have a full MD anesthesiologist — Dr. Awoniyi — monitoring every procedure.",
+      tag: "Safety",
+      img: "assets/step-surgery.jpg"
+    },
+    {
+      n: "III",
+      title: "Solutions when others say no",
+      body: "Severe bone loss? Told you aren't a candidate? Zygomatic, pterygoid, and transnasal implants let us restore patients without grafts or 12-month waits.",
+      tag: "Advanced techniques",
+      img: "assets/step-consultation.jpg"
+    },
+    {
+      n: "IV",
+      title: "All under one roof",
+      body: "Surgery, restoration, anesthesia, and lab — coordinated as a single surgical team in a single building. No referrals across town. No handoffs.",
+      tag: "Single facility",
+      img: "assets/step-lab.jpg"
+    },
+  ];
+
+  return (
+    <section className="why dark sec">
+      <style>{`
+        .why {
+          background: var(--ink);
+          color: var(--porcelain);
+          position: relative;
+          overflow: hidden;
+        }
+        .why::before {
+          content: ""; position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at 80% 0%, color-mix(in oklch, var(--accent) 18%, transparent) 0%, transparent 50%);
+          pointer-events: none;
+        }
+        .why-head {
+          margin-bottom: 80px;
+
+        }
+        .why-h {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(36px, 5vw, 80px);
+          line-height: 0.95;
+          letter-spacing: -0.03em;
+          margin-top: 24px;
+
+        }
+        .why-h em { font-style: italic; color: var(--accent-soft); }
+        .why-h .split-line { padding-right: 0.16em; }
+        .why-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0;
+          border-top: 1px solid color-mix(in oklch, var(--porcelain) 18%, transparent);
+        }
+        .why-card {
+          padding: 48px 0;
+          padding-right: 32px;
+          border-bottom: 1px solid color-mix(in oklch, var(--porcelain) 18%, transparent);
+          position: relative;
+          transition: background var(--t-base) var(--ease-out);
+          display: flex;
+          gap: 24px;
+          align-items: stretch;
+        }
+        .why-card:nth-child(odd) { padding-right: 32px; border-right: 1px solid color-mix(in oklch, var(--porcelain) 18%, transparent); }
+        .why-card:nth-child(even) { padding-left: 32px; }
+        .why-card-img {
+          width: 220px;
+          flex-shrink: 0;
+          border-radius: 3px;
+          overflow: hidden;
+          align-self: stretch;
+        }
+        .why-card-img img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          display: block;
+        }
+        .why-card-content { flex: 1; min-width: 0; }
+        .why-card .roman {
+          font-family: var(--display);
+          font-size: 14px;
+          font-style: italic;
+          font-weight: 400;
+          color: var(--accent-soft);
+          letter-spacing: 0.05em;
+          display: block;
+          margin-bottom: 28px;
+        }
+        .why-card .tag {
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 55%, transparent);
+          margin-bottom: 18px;
+          display: block;
+        }
+        .why-card .title {
+          font-family: var(--display);
+          font-weight: 400;
+          font-size: clamp(24px, 2.4vw, 36px);
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+          margin-bottom: 16px;
+          max-width: 18ch;
+        }
+        .why-card .body {
+          font-size: 16px;
+          line-height: 1.55;
+          color: color-mix(in oklch, var(--porcelain) 75%, transparent);
+          max-width: 38ch;
+        }
+        @media (max-width: 880px) {
+          .why-grid { grid-template-columns: 1fr; }
+          .why-card:nth-child(odd) { border-right: none; padding-right: 0; }
+          .why-card:nth-child(even) { padding-left: 0; }
+          .why-card { flex-direction: column; }
+          .why-card-img { width: 100%; height: 220px; }
+        }
+      `}</style>
+
+      <div className="container" style={{ position: "relative", zIndex: 1 }}>
+        <div className="why-head">
+          <Reveal>
+            <div className="eyebrow" style={{ color: "color-mix(in oklch, var(--porcelain) 60%, transparent)" }}>
+              <span className="dot" />Different by design
+            </div>
+          </Reveal>
+          <SplitText className="why-h" delayBase={45}>
+            We are not a general dental office that does implants.{" "}
+          </SplitText>
+          <SplitText className="why-h" delayBase={45} startDelay={450} style={{ fontStyle: "italic", color: "var(--accent-soft)" }}>
+            Implants are all we do.
+          </SplitText>
+        </div>
+
+        <div className="why-grid">
+          {cards.map((c, i) => (
+            <Reveal key={i} delay={i * 80} className="why-card">
+              <div className="why-card-img">
+                <img src={c.img} alt={c.title} />
+              </div>
+              <div className="why-card-content">
+                <span className="roman">{c.n}</span>
+                <span className="tag">{c.tag}</span>
+                <div className="title">{c.title}</div>
+                <p className="body">{c.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+window.Why = Why;
+
+
+/* ---------- Patient Testimonial ---------- */
+function Testimonial() {
+  const stories = [
+    {
+      name: "Diana", age: 64, location: "Ponte Vedra, FL",
+      quote: "I cried the first time I looked in the mirror. I haven't smiled in photographs in fifteen years. Now I can't stop.",
+      detail: "Long-term denture wearer · Full-arch zirconia",
+      length: "2:14",
+      img: "assets/patient-diana.jpg"
+    },
+    {
+      name: "Marcus", age: 58, location: "St. Augustine, FL",
+      quote: "Three other places told me I'd need bone grafts and a year of waiting. Dr. Young did it in one day.",
+      detail: "Zygomatic implants · Severe bone loss",
+      length: "3:02",
+      img: "assets/patient-marcus.jpg"
+    },
+    {
+      name: "Patricia", age: 71, location: "Jacksonville, FL",
+      quote: "He spent an hour with me — the actual surgeon, not a sales rep. I drove from Savannah for that.",
+      detail: "Failing dentition · Same-day teeth",
+      length: "1:48",
+      img: "assets/patient-patricia.jpg"
+    },
+  ];
+  const [i, setI] = React.useState(0);
+  const s = stories[i];
+
+  return (
+    <section id="stories" className="story sec">
+      <style>{`
+        .story { background: var(--bone); }
+        .story-grid {
+          display: grid;
+          grid-template-columns: 1.1fr 1fr;
+          gap: clamp(40px, 5vw, 80px);
+          align-items: stretch;
+        }
+        .story-media {
+          position: relative;
+          aspect-ratio: 1 / 1;
+          border-radius: 4px;
+          overflow: hidden;
+        }
+        .story-media .media { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; }
+        .story-play {
+          position: absolute; inset: 0;
+          display: grid; place-items: center;
+          z-index: 2;
+        }
+        .play-btn-lg {
+          width: 96px; height: 96px;
+          border-radius: 50%;
+          background: color-mix(in oklch, var(--porcelain) 14%, transparent);
+          border: 1px solid color-mix(in oklch, var(--porcelain) 28%, transparent);
+          color: var(--porcelain);
+          display: grid; place-items: center;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          position: relative;
+          transition: background var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-out), border-color var(--t-base) var(--ease-out);
+        }
+        .play-btn-lg::before {
+          content: ""; position: absolute; inset: -10px;
+          border-radius: 50%;
+          border: 1px solid color-mix(in oklch, var(--porcelain) 22%, transparent);
+          animation: ringPulse 2.6s var(--ease-out) infinite;
+        }
+        @keyframes ringPulse {
+          0%   { transform: scale(0.94); opacity: 0.8; }
+          70%  { transform: scale(1.18); opacity: 0; }
+          100% { transform: scale(1.18); opacity: 0; }
+        }
+        .play-btn-lg:hover { background: var(--porcelain); color: var(--ink); transform: scale(1.04); border-color: var(--porcelain); }
+        .play-btn-lg svg { transform: translateX(2px); }
+        .story-meta {
+          position: absolute; left: 18px; bottom: 18px; right: 18px;
+          display: flex; justify-content: space-between; align-items: end;
+          color: var(--porcelain);
+        }
+        .story-meta .name {
+          font-family: var(--display);
+          font-size: clamp(22px, 2vw, 30px);
+          letter-spacing: -0.015em;
+          line-height: 1.1;
+        }
+        .story-meta .where {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 70%, transparent);
+          margin-top: 4px;
+        }
+        .story-len {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.1em;
+          padding: 6px 10px;
+          background: color-mix(in oklch, var(--porcelain) 16%, transparent);
+          backdrop-filter: blur(6px);
+          border-radius: 2px;
+        }
+        .story-eyebrow {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          font-weight: 600;
+          color: var(--grey);
+          display: flex; align-items: center; gap: 0;
+          margin-bottom: 28px;
+        }
+        .story-quote {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(28px, 3.4vw, 52px);
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+          margin-bottom: 32px;
+
+        }
+        .story-quote::before {
+          content: """;
+          font-family: var(--display);
+          font-style: italic;
+          color: var(--accent);
+          font-size: 1.4em;
+          line-height: 0;
+          vertical-align: -0.3em;
+          margin-right: 6px;
+        }
+        .story-attr {
+          font-family: var(--mono);
+          font-size: 11.5px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--grey);
+          margin-bottom: 40px;
+        }
+        .story-controls {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          margin-top: 24px;
+        }
+        .story-dot-group {
+          flex: 1;
+          display: flex; gap: 8px;
+        }
+        .story-dot {
+          flex: 1;
+          height: 2px;
+          background: var(--line);
+          position: relative;
+          overflow: hidden;
+          transition: background var(--t-fast);
+        }
+        .story-dot.active::after {
+          content: ""; position: absolute; inset: 0;
+          background: var(--ink);
+          transform-origin: left;
+          animation: dotfill 6s linear forwards;
+        }
+        @keyframes dotfill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+        .story-nav {
+          display: flex; gap: 8px;
+        }
+        .story-nav button {
+          width: 44px; height: 44px;
+          border-radius: 50%;
+          border: 1px solid var(--line);
+          background: var(--porcelain);
+          color: var(--ink);
+          display: grid; place-items: center;
+          transition: background var(--t-fast), color var(--t-fast), transform var(--t-fast);
+        }
+        .story-nav button:hover { background: var(--ink); color: var(--porcelain); transform: scale(1.04); }
+        @media (max-width: 880px) { .story-grid { grid-template-columns: 1fr; } }
+      `}</style>
+
+      <div className="container">
+        <div className="story-grid">
+          <Reveal kind="scale">
+            <div className="story-media">
+              <img
+                src={s.img}
+                alt={s.name}
+                className="media"
+                style={{ objectFit: "cover", objectPosition: "center top" }}
+              />
+              <div className="story-play">
+                <button className="play-btn-lg" aria-label={`Play ${s.name}'s story`}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>
+                </button>
+              </div>
+              <div className="story-meta">
+                <div>
+                  <div className="name">{s.name}, {s.age}</div>
+                  <div className="where">{s.location}</div>
+                </div>
+                <span className="story-len">{s.length}</span>
+              </div>
+            </div>
+          </Reveal>
+
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <Reveal>
+              <div className="story-eyebrow">
+                <span className="dot" aria-hidden />
+                <span>Patient Stories</span>
+              </div>
+            </Reveal>
+            <div className="story-quote" key={i}>{s.quote}"</div>
+            <div className="story-attr">— {s.name}, {s.detail}</div>
+
+            <div className="story-controls">
+              <div className="story-dot-group">
+                {stories.map((_, idx) => (
+                  <span key={idx} className={`story-dot ${idx === i ? "active" : ""}`} />
+                ))}
+              </div>
+              <div className="story-nav">
+                <button data-cursor="hover" onClick={() => setI((i - 1 + stories.length) % stories.length)} aria-label="Previous">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+                </button>
+                <button data-cursor="hover" onClick={() => setI((i + 1) % stories.length)} aria-label="Next">
+                  <ArrowRight />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+window.Testimonial = Testimonial;
+
+
+/* ---------- Investment / Financing ---------- */
+function Finance() {
+  return (
+    <section id="finance" className="finance sec">
+      <style>{`
+        .finance { background: var(--porcelain); }
+        .finance-grid {
+          display: grid;
+          grid-template-columns: 5fr 6fr;
+          gap: clamp(40px, 5vw, 80px);
+          align-items: start;
+        }
+        .finance-left-head {
+          margin-bottom: 8px;
+        }
+        .finance-h {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(40px, 5.6vw, 84px);
+          line-height: 1.0;
+          letter-spacing: -0.03em;
+          margin-bottom: 28px;
+
+        }
+        .finance-h em { font-style: italic; color: var(--accent); }
+        .price-card {
+          background: var(--ink);
+          color: var(--porcelain);
+          padding: 40px;
+          border-radius: 4px;
+          position: relative;
+          overflow: hidden;
+        }
+        .price-card::before {
+          content: ""; position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at 100% 0%, color-mix(in oklch, var(--accent) 35%, transparent) 0%, transparent 60%);
+          pointer-events: none;
+        }
+        .price-card > * { position: relative; z-index: 1; }
+        .price-row {
+          display: flex; justify-content: space-between; align-items: baseline;
+          padding: 20px 0;
+          border-bottom: 1px solid color-mix(in oklch, var(--porcelain) 16%, transparent);
+        }
+        .price-row:last-of-type { border-bottom: none; }
+        .price-label {
+          font-family: var(--display);
+          font-size: 18px;
+          letter-spacing: -0.01em;
+        }
+        .price-sub {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 60%, transparent);
+          margin-top: 4px;
+        }
+        .price-val {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(28px, 3vw, 44px);
+          letter-spacing: -0.025em;
+        }
+        .price-val .dollar {
+          font-size: 0.6em;
+          color: color-mix(in oklch, var(--porcelain) 60%, transparent);
+          margin-right: 2px;
+        }
+        .price-headline {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 70%, transparent);
+          margin-bottom: 24px;
+        }
+        .price-from {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(44px, 5.5vw, 80px);
+          line-height: 0.9;
+          letter-spacing: -0.04em;
+          margin-bottom: 32px;
+          display: flex; align-items: baseline; gap: 8px;
+        }
+        .price-from .dollar { font-size: 0.4em; color: var(--accent-soft); }
+        .price-from .per {
+          font-size: 0.22em; color: color-mix(in oklch, var(--porcelain) 60%, transparent);
+          font-family: var(--mono); letter-spacing: 0.08em;
+          text-transform: uppercase; align-self: end; margin-bottom: 0.4em;
+        }
+        .partners {
+          margin-top: 24px;
+          padding-top: 24px;
+        }
+        .partners-label {
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 60%, transparent);
+          margin-bottom: 14px;
+        }
+        .partners-list {
+          display: flex; flex-wrap: wrap; gap: 8px;
+        }
+        .partner-pill {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.04em;
+          padding: 8px 12px;
+          border: 1px solid color-mix(in oklch, var(--porcelain) 22%, transparent);
+          border-radius: 999px;
+          color: color-mix(in oklch, var(--porcelain) 80%, transparent);
+        }
+        .finance-points {
+          display: grid; gap: 18px;
+          margin-top: 36px;
+        }
+        .finance-point {
+          display: grid;
+          grid-template-columns: 28px 1fr;
+          gap: 16px;
+          align-items: start;
+        }
+        .finance-point .check {
+          width: 22px; height: 22px;
+          border-radius: 50%;
+          background: var(--accent-soft);
+          color: var(--ink);
+          display: grid; place-items: center;
+          margin-top: 2px;
+        }
+        .finance-point .label {
+          font-family: var(--display);
+          font-size: 18px;
+          letter-spacing: -0.01em;
+          margin-bottom: 4px;
+        }
+        .finance-point .body {
+          font-size: 15px;
+          line-height: 1.5;
+          color: var(--navy-soft);
+        }
+        @media (max-width: 880px) {
+          .finance-grid { grid-template-columns: 1fr; }
+          .price-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+        }
+      `}</style>
+
+      <div className="container">
+        <div className="finance-grid">
+          <div>
+            <div className="finance-left-head">
+              <Reveal>
+                <div className="eyebrow"><span className="dot" />Investment</div>
+              </Reveal>
+              <SplitText className="finance-h" delayBase={50}>
+                No surprises.<br /><em>Just clarity.</em>
+              </SplitText>
+            </div>
+
+            <Reveal delay={200}>
+              <p className="body" style={{ maxWidth: "44ch", marginBottom: 16 }}>
+                We publish our pricing because we believe you deserve to know
+                before you walk through the door. Most patients finance — we work
+                with seven partners to find the right fit for your credit and timeline.
+              </p>
+            </Reveal>
+
+            <Reveal delay={350}>
+              <div className="finance-points">
+                {[
+                  ["Free 60-minute consultation", "CT scan, smile preview, and a treatment plan you can take home."],
+                  ["Seven financing partners", "From prime credit to subprime — we find a plan that works."],
+                  ["Single, transparent fee per arch", "Anesthesia priced separately. No hidden line items."],
+                  ["Forever Smiles Protection", "Long-term maintenance and warranty for your investment."],
+                ].map(([l, b], i) => (
+                  <div className="finance-point" key={i}>
+                    <span className="check">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M4 12l5 5L20 6"/></svg>
+                    </span>
+                    <div>
+                      <div className="label">{l}</div>
+                      <div className="body">{b}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={450}>
+              <MagneticButton className="btn" style={{ marginTop: 36 }}>
+                Request free consultation
+                <ArrowRight />
+              </MagneticButton>
+            </Reveal>
+          </div>
+
+          <Reveal delay={150} kind="scale">
+            <div className="price-card">
+              <div className="price-headline">Forever Smiles · Per Arch</div>
+              <div className="price-from">
+                <span className="dollar">$</span>
+                25,000
+                <span className="per">starting</span>
+              </div>
+
+              <div className="price-row">
+                <div>
+                  <div className="price-label">Full-arch implant restoration</div>
+                  <div className="price-sub">All-on-X · Fixed · Same day</div>
+                </div>
+                <div className="price-val"><span className="dollar">$</span>25,000</div>
+              </div>
+              <div className="price-row">
+                <div>
+                  <div className="price-label">General anesthesia</div>
+                  <div className="price-sub">MD anesthesiologist · Per visit</div>
+                </div>
+                <div className="price-val"><span className="dollar">$</span>3,500</div>
+              </div>
+              <div className="price-row">
+                <div>
+                  <div className="price-label">Zygomatic implants</div>
+                  <div className="price-sub">Severe bone loss · As needed</div>
+                </div>
+                <div className="price-val">+$4–8k</div>
+              </div>
+
+              <div className="partners">
+                <div className="partners-label">Financing Partners</div>
+                <div className="partners-list">
+                  {["CareCredit", "Proceed", "LendingClub", "CoveredCare"].map((p) => (
+                    <span key={p} className="partner-pill">{p}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+window.Finance = Finance;
+
+
+/* ---------- FAQ ---------- */
+function FAQ() {
+  const items = [
+    { q: "Am I a candidate if I've been told no elsewhere?", a: "Often, yes. Dr. Young specializes in advanced surgical techniques — zygomatic, pterygoid, and transnasal implants — that allow us to restore patients who have severe bone loss without months of grafting. Many patients come to us after being turned away by other centers." },
+    { q: "How is this different from ClearChoice or Nuvia?", a: "Both rely on salespeople for consultations and general dentists for surgery. At Forever Smiles, you sit with Dr. Young — a residency-trained surgical specialist — for up to an hour during your free consult. He plans, he performs, and he follows your case from start to finish." },
+    { q: "Will I really get teeth the same day?", a: "Yes. Transformation Day includes implant placement and a full set of fixed teeth, all under general anesthesia. You go home that evening with a smile that works — eating, talking, and looking like teeth you were born with." },
+    { q: "Is the surgery painful?", a: "You're under general anesthesia for the entire procedure, monitored by an MD anesthesiologist. Most patients describe recovery as far easier than they expected — typically 2–3 days of swelling and over-the-counter pain management." },
+    { q: "How long does it last?", a: "The implants themselves are designed to be permanent. Your final zirconia teeth — the Forever Smiles set — are exceptionally durable. Our long-term Forever Smiles Protection plan covers maintenance and care for years to come." },
+    { q: "Do you accept insurance?", a: "We are a fee-for-service practice and do not accept insurance directly. Most patients finance through one of our seven lending partners. We'll provide documentation for any out-of-network insurance reimbursement you may pursue." },
+  ];
+  const [open, setOpen] = React.useState(0);
+
+  return (
+    <section className="faq sec">
+      <style>{`
+        .faq { background: var(--bone); }
+        .faq-grid {
+          display: grid;
+          grid-template-columns: 5fr 7fr;
+          gap: clamp(40px, 5vw, 80px);
+          align-items: start;
+        }
+        .faq-head {
+          grid-column: 1 / -1;
+          display: grid;
+          grid-template-columns: 1.1fr 1fr;
+          gap: clamp(40px, 5vw, 80px);
+          align-items: end;
+          margin-bottom: 8px;
+        }
+        .faq-head-title { /* heading side */ }
+        .faq-head-cta { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+        .faq-h {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(44px, 5.8vw, 88px);
+          line-height: 1.0;
+          letter-spacing: -0.03em;
+          margin-bottom: 24px;
+
+        }
+        .faq-list {
+          border-top: 1px solid var(--line);
+        }
+        .faq-row {
+          border-bottom: 1px solid var(--line);
+        }
+        .faq-q {
+          width: 100%;
+          padding: 28px 0;
+          display: grid;
+          grid-template-columns: 36px 1fr 36px;
+          gap: 18px;
+          align-items: center;
+          text-align: left;
+          font-family: var(--display);
+          font-size: clamp(20px, 1.7vw, 26px);
+          letter-spacing: -0.015em;
+          color: var(--ink);
+          transition: padding-left var(--t-base) var(--ease-out);
+        }
+        .faq-q .num {
+          font-family: var(--mono);
+          font-size: 11.5px;
+          letter-spacing: 0.1em;
+          color: var(--grey);
+        }
+        .faq-row.open .faq-q { padding-left: 12px; }
+        .faq-row.open .num { color: var(--accent); }
+        .faq-a {
+          overflow: hidden;
+          max-height: 0;
+          transition: max-height 600ms var(--ease-out), padding 600ms var(--ease-out);
+        }
+        .faq-row.open .faq-a {
+          max-height: 600px;
+          padding-bottom: 28px;
+          padding-left: 64px;
+          padding-right: 36px;
+        }
+        .faq-a p {
+          font-size: 16px;
+          line-height: 1.6;
+          color: var(--navy-soft);
+          max-width: 60ch;
+        }
+        @media (max-width: 880px) {
+          .faq-grid { grid-template-columns: 1fr; }
+          .faq-head { grid-template-columns: 1fr; }
+          .faq-row.open .faq-a { padding-left: 36px; }
+        }
+      `}</style>
+
+      <div className="container">
+        <div className="faq-grid">
+          <div className="faq-head">
+            <div className="faq-head-title">
+              <Reveal>
+                <div className="eyebrow"><span className="dot" />Questions, answered</div>
+              </Reveal>
+              <SplitText className="faq-h" delayBase={50}>
+                Everything you need to know.
+              </SplitText>
+            </div>
+            <div className="faq-head-cta">
+              <Reveal delay={250}>
+                <p className="body" style={{ maxWidth: "36ch" }}>
+                  Don't see your question? We answer the phones 9–5. A human will pick up.
+                </p>
+                <a href="tel:9044142320" className="btn" data-cursor="hover" style={{ marginTop: 24 }}>
+                  Call (904) 414-2320
+                  <ArrowRight />
+                </a>
+              </Reveal>
+            </div>
+          </div>
+
+          <div className="faq-list" style={{ gridColumn: "1 / -1" }}>
+            {items.map((it, i) => (
+              <div key={i} className={`faq-row ${i === open ? "open" : ""}`}>
+                <Reveal delay={i * 60}>
+                  <button className="faq-q" onClick={() => setOpen(i === open ? -1 : i)} data-cursor="hover">
+                    <span className="num">{String(i + 1).padStart(2, "0")}</span>
+                    <span>{it.q}</span>
+                    <Plus open={i === open} />
+                  </button>
+                  <div className="faq-a">
+                    <p>{it.a}</p>
+                  </div>
+                </Reveal>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+window.FAQ = FAQ;
+
+
+/* ---------- Final CTA ---------- */
+function CTA() {
+  const [name, setName] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [stage, setStage] = React.useState("");
+
+  return (
+    <section id="consult" className="cta dark sec">
+      <style>{`
+        .cta {
+          background: var(--ink);
+          color: var(--porcelain);
+          position: relative;
+          overflow: hidden;
+        }
+        .cta::before {
+          content: ""; position: absolute; inset: 0;
+          background:
+            radial-gradient(ellipse at 0% 100%, color-mix(in oklch, var(--accent) 20%, transparent) 0%, transparent 50%),
+            radial-gradient(ellipse at 100% 0%, color-mix(in oklch, var(--navy-2) 60%, transparent) 0%, transparent 60%);
+        }
+        .cta-grid {
+          display: grid;
+          grid-template-columns: 1.1fr 1fr;
+          gap: clamp(40px, 5vw, 80px);
+          align-items: center;
+          position: relative;
+          z-index: 1;
+        }
+        .cta-h {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(48px, 7vw, 120px);
+          line-height: 0.94;
+          letter-spacing: -0.035em;
+          margin-bottom: 32px;
+
+        }
+        .cta-h em { font-style: italic; color: var(--accent-soft); }
+        .cta-meta {
+          display: flex; gap: 32px; flex-wrap: wrap;
+          margin-top: 32px;
+          padding-top: 32px;
+          border-top: 1px solid color-mix(in oklch, var(--porcelain) 18%, transparent);
+        }
+        .cta-meta-item {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 65%, transparent);
+        }
+        .cta-meta-item strong {
+          display: block;
+          font-family: var(--display);
+          font-size: 20px;
+          letter-spacing: -0.01em;
+          text-transform: none;
+          font-weight: 400;
+          color: var(--porcelain);
+          margin-top: 6px;
+        }
+        .form-card {
+          background: var(--porcelain);
+          color: var(--ink);
+          padding: 36px;
+          border-radius: 4px;
+        }
+        .form-eyebrow {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--grey);
+          margin-bottom: 8px;
+        }
+        .form-h {
+          font-family: var(--display);
+          font-size: 28px;
+          letter-spacing: -0.02em;
+          margin-bottom: 24px;
+          line-height: 1.1;
+        }
+        .field { margin-bottom: 14px; }
+        .field label {
+          display: block;
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--grey);
+          margin-bottom: 6px;
+        }
+        .field input, .field select {
+          width: 100%;
+          padding: 14px 16px;
+          background: var(--bone);
+          border: 1px solid var(--line);
+          border-radius: 4px;
+          font-size: 15px;
+          letter-spacing: -0.005em;
+          transition: border-color var(--t-fast), background var(--t-fast);
+        }
+        .field input:focus, .field select:focus {
+          outline: none;
+          border-color: var(--accent);
+          background: var(--porcelain);
+        }
+        .form-cta {
+          width: 100%;
+          padding: 18px;
+          background: var(--ink);
+          color: var(--porcelain);
+          border-radius: 999px;
+          font-size: 14px;
+          letter-spacing: -0.005em;
+          font-weight: 500;
+          margin-top: 8px;
+          display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+          transition: background var(--t-fast), transform var(--t-fast);
+        }
+        .form-cta:hover { background: var(--accent); color: var(--ink); transform: translateY(-1px); }
+        .form-foot {
+          font-family: var(--mono);
+          font-size: 10.5px;
+          letter-spacing: 0.06em;
+          color: var(--grey);
+          margin-top: 14px;
+          text-align: center;
+        }
+        @media (max-width: 880px) { .cta-grid { grid-template-columns: 1fr; } }
+      `}</style>
+
+      <div className="container">
+        <div className="cta-grid">
+          <div>
+            <Reveal>
+              <div className="eyebrow" style={{ color: "color-mix(in oklch, var(--porcelain) 60%, transparent)" }}>
+                <span className="dot" />Take the first step
+              </div>
+            </Reveal>
+            <SplitText className="cta-h" delayBase={50}>
+              The next ten years<em> start with one consult.</em>
+            </SplitText>
+            <Reveal delay={300}>
+              <p className="lede" style={{ maxWidth: "44ch", color: "color-mix(in oklch, var(--porcelain) 80%, transparent)" }}>
+                Your consultation is free, takes about an hour, and includes a 3D scan
+                and a preview of your new smile. No pressure. No salespeople. Just the doctor.
+              </p>
+            </Reveal>
+            <Reveal delay={500}>
+              <div className="cta-meta">
+                <div className="cta-meta-item">
+                  Location
+                  <strong>Jacksonville, FL</strong>
+                </div>
+                <div className="cta-meta-item">
+                  Phone
+                  <strong>(904) 414-2320</strong>
+                </div>
+                <div className="cta-meta-item">
+                  Hours
+                  <strong>Mon–Fri · 9–5</strong>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal delay={200} kind="scale">
+            <form className="form-card" onSubmit={(e) => { e.preventDefault(); alert("Thanks! Our team will reach out within 1 business day."); }}>
+              <div className="form-eyebrow">Free Consultation Request</div>
+              <div className="form-h">Tell us a little about you.</div>
+
+              <div className="field">
+                <label htmlFor="name">Your name</label>
+                <input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="First & last" required />
+              </div>
+              <div className="field">
+                <label htmlFor="phone">Phone</label>
+                <input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(___) ___-____" required />
+              </div>
+              <div className="field">
+                <label htmlFor="stage">What best describes you?</label>
+                <select id="stage" value={stage} onChange={(e) => setStage(e.target.value)} required>
+                  <option value="">Choose one…</option>
+                  <option>I'm losing or have lost most of my teeth</option>
+                  <option>I currently wear dentures</option>
+                  <option>I have failing dental work</option>
+                  <option>I was told I'm not a candidate elsewhere</option>
+                  <option>Just exploring options</option>
+                </select>
+              </div>
+              <button type="submit" className="form-cta" data-cursor="hover">
+                Request your consultation
+                <ArrowRight />
+              </button>
+              <div className="form-foot" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "12px" }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ flexShrink: 0, opacity: 0.6 }}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                A coordinator will contact you within one business day.
+              </div>
+            </form>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+window.CTA = CTA;
+
+
+/* ---------- Footer ---------- */
+function Footer() {
+  return (
+    <footer className="foot">
+      <style>{`
+        .foot {
+          background: var(--ink);
+          color: color-mix(in oklch, var(--porcelain) 80%, transparent);
+          padding: 80px var(--pad-x) 32px;
+          border-top: 1px solid color-mix(in oklch, var(--porcelain) 14%, transparent);
+        }
+        .foot-inner { max-width: var(--max); margin: 0 auto; }
+        .foot-mark {
+          font-family: var(--display);
+          font-weight: 300;
+          font-size: clamp(48px, 8vw, 120px);
+          letter-spacing: -0.045em;
+          line-height: 0.88;
+          color: var(--porcelain);
+          margin-bottom: 1em;
+        }
+        .foot-logo {
+          height: 32px;
+          width: auto;
+          display: block;
+          margin-top: 56px;
+          margin-bottom: 32px;
+        }
+        .foot-mark em { font-style: italic; color: var(--accent-soft); }
+        .foot-grid {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr 1fr;
+          gap: 32px;
+        }
+        .foot-col h4 {
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: color-mix(in oklch, var(--porcelain) 55%, transparent);
+          font-weight: 500;
+          margin-bottom: 16px;
+        }
+        .foot-col a {
+          display: block;
+          padding: 6px 0;
+          font-size: 14.5px;
+          color: color-mix(in oklch, var(--porcelain) 88%, transparent);
+          letter-spacing: -0.005em;
+          transition: color var(--t-fast);
+        }
+        .foot-col a:hover { color: var(--accent-soft); }
+        .foot-addr {
+          display: block;
+          padding: 6px 0;
+          font-size: 14.5px;
+          line-height: 1.6;
+          color: color-mix(in oklch, var(--porcelain) 88%, transparent);
+          letter-spacing: -0.005em;
+          transition: color var(--t-fast);
+        }
+        .foot-addr:hover { color: var(--accent-soft); }
+        .foot-bottom {
+          margin-top: 64px;
+          padding-top: 24px;
+          border-top: 1px solid color-mix(in oklch, var(--porcelain) 14%, transparent);
+          display: flex; justify-content: space-between; gap: 16px;
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          color: color-mix(in oklch, var(--porcelain) 55%, transparent);
+          text-transform: uppercase;
+          flex-wrap: wrap;
+        }
+        @media (max-width: 880px) {
+          .foot-grid { grid-template-columns: 1fr 1fr; }
+        }
+      `}</style>
+
+      <div className="foot-inner">
+        <Reveal>
+          <div className="foot-mark">
+            Forever Smiles<br />
+            <em>permanently yours.</em>
+          </div>
+        </Reveal>
+
+        <div className="foot-grid">
+          <div className="foot-col">
+            <h4>Visit</h4>
+            <a href="https://maps.google.com/?q=13770+Beach+Blvd+Suite+6+Jacksonville+FL+32224" target="_blank" rel="noopener" className="foot-addr">
+              13770 Beach Blvd, Suite 6<br />Jacksonville, FL 32224
+            </a>
+            <a href="tel:9044142320">(904) 414-2320</a>
+            <a href="mailto:dryoung@foreversmilesjax.com">dryoung@foreversmilesjax.com</a>
+          </div>
+          <div className="foot-col">
+            <h4>About Us</h4>
+            <a href="#surgeon">Dr. Brian Young</a>
+            <a href="#about">Our Practice</a>
+            <a href="#promise">Why Forever Smiles</a>
+            <a href="#about">Technology</a>
+          </div>
+          <div className="foot-col">
+            <h4>Services</h4>
+            <a href="#promise">All-on-4 Implants</a>
+            <a href="#surgeon">Zygomatic Implants</a>
+            <a href="#process">Dental Implants</a>
+            <a href="#promise">Implant Dentures</a>
+            <a href="#process">FP-1 Implant Bridges</a>
+            <a href="#surgeon">Implant Correction</a>
+          </div>
+          <div className="foot-col">
+            <h4>For Patients</h4>
+            <a href="#consult">Patient Resources</a>
+            <a href="#process">Forever Smiles Protection</a>
+            <a href="#outcomes">Before & Afters</a>
+            <a href="#">Blog</a>
+          </div>
+        </div>
+
+        <img src="assets/logo-light.svg" alt="Forever Smiles Implant Center" className="foot-logo" />
+        <div className="foot-bottom">
+          <div>© 2026 Forever Smiles Implant Center · Jacksonville, FL</div>
+          <div>Website by Wonderist Agency</div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+window.Footer = Footer;
+
+
+/* ---------- App root ---------- */
+function Cursor() {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current; if (!el) return;
+    let raf, x = window.innerWidth / 2, y = window.innerHeight / 2, tx = x, ty = y;
+    const onMove = (e) => { tx = e.clientX; ty = e.clientY; };
+    const onOver = (e) => {
+      const t = e.target.closest("[data-cursor='hover'], button, a");
+      if (t) el.classList.add("is-hover");
+      else el.classList.remove("is-hover");
+    };
+    const tick = () => {
+      x += (tx - x) * 0.22;
+      y += (ty - y) * 0.22;
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseover", onOver);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseover", onOver);
+    };
+  }, []);
+  return <div className="cursor" ref={ref} aria-hidden></div>;
+}
+
+function App() {
+  return (
+    <>
+      <Cursor />
+      <Nav />
+      <Hero />
+      <Marquee />
+      <PromiseSection />
+      <Outcomes />
+      <Surgeon />
+      <Process />
+      <Why />
+      <Testimonial />
+      <Finance />
+      <FAQ />
+      <CTA />
+      <Footer />
+      <FSTweaks />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
 </body>
 </html>
